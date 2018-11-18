@@ -6,13 +6,25 @@ var router = express.Router();
 
 /* GET lista de utiliadores */
 router.get('/', function(req, res) {
-  res.render('index');
+  UserController.listAll()
+                .then(dados => {
+                  res.jsonp(dados)
+                })
+                .catch(err => {
+                  res.render('erro', {error: err})
+                })
 });
 
 
 /* GET um utilizador */
 router.get('/:id', function(req, res) {
-  res.send('Um utilizador específico.');
+  UserController.getUser(req.params.id)
+                .then(dados => {
+                  res.jsonp(dados)
+                })
+                .catch(err => {
+                res.render('erro', {error: err})
+                })
 });
 
 /* POST create a user */
