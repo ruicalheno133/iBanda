@@ -4,7 +4,12 @@ var router = express.Router();
 
 /* GET lista de utiliadores */
 router.get('/', function(req, res) {
-  res.send('Lista de utilizadores.');
+  res.render('index');
+});
+
+/* GET página de registo */
+router.get('/register', function(req, res) {
+  res.render("registo");
 });
 
 /* GET um utilizador */
@@ -21,5 +26,7 @@ router.post('/', function(req, res) {
 router.put('/:id', function(req, res) {
   res.send('Altera a informação de um utilizador.');
 });
+
+
 
 module.exports = router;
