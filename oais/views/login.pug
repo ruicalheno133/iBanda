@@ -1,0 +1,18 @@
+extends all_layout
+
+block content
+    .w3-container
+        .w3-card-4.w3-display-middle(style="width:30%")
+            h3.w3-center Bem Vindo/a
+            .w3-container
+                form.w3-container(action='/processaLogin', method='POST')
+                    label.w3-text.w3-center
+                        b Email:
+                    input.w3-input.w3-block(type='text', name='email',placeholder='Endereço de email')
+                    br
+                    label.w3-text.w3-center
+                        b Password:
+                    input.w3-input.w3-block(type='password', name='password', placeholder='Password')
+                    br
+                .w3-center.w3-block.w3-margin-bottom
+                    input.w3-btn.w3-blue-grey.w3-center(type='submit', style='width: 60%',value='Iniciar Sessão')

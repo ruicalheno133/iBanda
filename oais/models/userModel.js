@@ -11,7 +11,7 @@ var UserSchema = new mongoose.Schema(
 )
 
 /* User Model */
-var UserModel = mongoose.model('UserSchema', UserSchema)
+var UserModel = mongoose.model('UserSchema', UserSchema ,'users')
 
 /* Export User Model */
 module.exports = UserModel
