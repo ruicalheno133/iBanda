@@ -3,17 +3,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+  res.render('login');
 });
 
-/* GET login page. */
-router.get('/login', function(req, res, next) {
-  res.render("login");
-});
-
-/* GET página de registo */
-router.get('/register', function(req, res) {
-  res.render("registo");
+/* GET admin page. */
+router.get('/admin', function(req, res, next) {
+  res.render("admin_layout");
 });
 
 module.exports = router;

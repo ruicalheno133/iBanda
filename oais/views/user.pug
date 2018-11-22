@@ -1,0 +1,51 @@
+extends admin_layout
+
+block content
+    header.w3-container
+        h1 Músico #{user.nome}
+    form.w3-container(id="formUpdate", user= user._id, style="width: 100%")
+        table(style="width: 100%")
+            tr 
+                td
+                    label.w3-text
+                    b Nome: 
+                td
+                    input.w3-input(type='text', name='nome', style='width:40%',placeholder= user.nome, disabled)
+            tr 
+                td
+                    label.w3-text
+                        b Endereço de email:
+                td
+                    input.w3-input(type='text', name='email', style='width:40%',placeholder= user.email, disabled)
+            tr
+                td
+                    label.w3-text 
+                        b Sexo:
+                td
+                    select.w3-select(type='text', name='sexo', style='width:40%', disabled)
+                        if user.sexo == "Masculino"
+                            option(value="Masculino") Masculino
+                            option(value="Feminino") Feminino
+                            option(value="Outro") Outro
+                        else if user.sexo == "Feminino"
+                            option(value="Masculino") Masculino
+                            option(value="Feminino" selected) Feminino
+                            option(value="Outro") Outro
+                        else 
+                            option(value="Masculino") Masculino
+                            option(value="Feminino") Feminino
+                            option(value="Outro"  selected) Outro
+            tr
+                td
+                    label.w3-text 
+                        b Tipo de utilizador:
+                td
+                    select.w3-select(type='text', name='tipo' , style='width:40%')
+                        if user.tipo == "Músico"
+                            option(value="Músico") Músico 
+                            option(value="Produtor") Produtor
+                        else 
+                            option(value="Músico") Músico 
+                            option(value="Produtor" selected) Produtor
+        input.w3-btn.w3-blue-grey.w3-margin.w3-right(type='submit', value='Atualizar', id="buttonUpdate")
+        input.w3-btn.w3-blue-grey.w3-margin.w3-right(type='button', value='Editar', id="buttonEdit")

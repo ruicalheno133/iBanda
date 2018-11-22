@@ -1,3 +1,28 @@
+/* our personal style */
 *{
-  font: 20px "Oswald", Helvetica, Arial, sans-serif !important; 
+  font-family: "Oswald", Helvetica, Arial, sans-serif !important; 
 }
+
+html, body {
+  height:100%;
+}
+
+/* Erros nas forms */
+label.error {
+  font-size: 15px !important;
+  font-family: Helvetica !important;
+  font-style: italic !important;
+  color: red;
+}
+
+input.invalid {
+  border-color: red;
+}
+
+/* Admin Navbar */
+#navbar {
+  border-right: 1px solid gray;
+  height: 100%;
+}
+
+

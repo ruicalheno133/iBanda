@@ -6,12 +6,13 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var adminUsersRouter = require('./routes/admin/users');
+var usersAPIRouter = require('./routes/api/users')
 
 var app = express();
 
 // connect to mongoDB 
-mongoose.connect('mongodb://127.0.0.1:27017/oais', {useNewUrlParser: true})
+mongoose.connect('mongodb://127.0.0.1:27017/ibanda', {useNewUrlParser: true})
         .then(()=> {console.log('Mongo: Conexão efetuada (status: ' + mongoose.connection.readyState + ')')})
         .catch(()=> {console.log('Mongo: Erro na conexão')})
 
@@ -26,7 +27,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/api/user', usersRouter);
+app.use('/admin/users', adminUsersRouter);
+app.use('/api/users', usersAPIRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
