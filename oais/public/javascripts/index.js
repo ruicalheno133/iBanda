@@ -109,4 +109,13 @@ $(()=>{
             x.className = x.className.replace(" w3-show", "");
         }
     }
+
+    /* Search bar users */
+
+    $("#searchUsers").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#usersTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
 })
