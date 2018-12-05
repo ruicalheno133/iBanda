@@ -8,7 +8,8 @@ var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var adminUsersRouter = require('./routes/admin/users');
 var adminEventsRouter = require('./routes/admin/events');
-var usersAPIRouter = require('./routes/api/users')
+var musicoEventsRouter = require('./routes/musico/events');
+var usersAPIRouter = require('./routes/api/users');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use('/', indexRouter);
 app.use('/admin/users', adminUsersRouter);
 app.use('/admin/events', adminEventsRouter);
 app.use('/api/users', usersAPIRouter);
+app.use('/musico/events', musicoEventsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

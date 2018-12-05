@@ -2,7 +2,7 @@ var express = require('express');
 var axios = require('axios')
 var router = express.Router();
 
-/* GET lista de utiliadores */
+/* GET lista de eventos */
 router.get('/', function(req, res) {
     res.render('events')
 });

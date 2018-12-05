@@ -11,4 +11,9 @@ router.get('/admin', function(req, res, next) {
   res.render("admin_layout");
 });
 
+/*GET musico page. */
+router.get('/musico',function (req,res,next){
+  res.render("musico_layout");
+})
+
 module.exports = router;
