@@ -4,14 +4,14 @@ var router = express.Router();
 
 /* GET página de registo de utlizador */
 router.get('/register', function(req, res) {
-    res.render("registo");
+    res.render("admin/registo");
   });
 
 /* GET lista de utiliadores */
 router.get('/', function(req, res) {
     axios.get('http://localhost:6001/api/users')
          .then(users => {
-             res.render('users', {users : users.data})
+             res.render('admin/users', {users : users.data})
          })
 });
 
@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
 router.get('/:id', function(req, res) {
     axios.get('http://localhost:6001/api/users/' + req.params.id)
     .then(user => {
-        res.render('user', {user : user.data})
+        res.render('admin/user', {user : user.data})
     })
 });
 

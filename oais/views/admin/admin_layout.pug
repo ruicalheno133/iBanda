@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title OAIS
+    link(rel='stylesheet', href='/stylesheets/w3.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow")
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous")
+    script(src="/javascripts/jquery-3.3.1.min.js")
+    script(src="/javascripts/jquery-validator.js")
+    script(src="/javascripts/index.js")
+  body
+        .w3-sidebar.w3-bar-block.w3-container.w3-padding-large(id="navbar" style="width: 20%; box-shadow: 1px 0px 10px grey").w3-theme-4
+            .w3-center
+                a(href="/admin")
+                    img(src="/images/ibanda.png" style="width: 70%")
+            button(id="buttonUsersDropdown").w3-bar-item.w3-button Utilizadores
+            .w3-container.w3-hide(id="usersDropdown" style="opacity: 0.8")
+                a(href="/admin/users").w3-bar-item.w3-button Ver utilizadores
+                a(href="/admin/users/register").w3-bar-item.w3-button Registar utilizador
+            a(href="/admin/events").w3-bar-item.w3-button Eventos
+            a(href="#").w3-bar-item.w3-button Obras
+            a(href="#").w3-bar-item.w3-button Sair
+        .w3-display-container(style="margin-left: 20%; height: 100%").w3-theme-1
+            block content

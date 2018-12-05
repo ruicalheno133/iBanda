@@ -16,7 +16,7 @@ router.post('/processLogin', passport.authenticate('local', {
 
 /* GET admin page. */
 router.get('/admin', function(req, res, next) {
-  res.render("admin_layout");
+  res.render("admin/admin_layout");
 });
 
 module.exports = router;

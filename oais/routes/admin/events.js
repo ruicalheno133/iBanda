@@ -6,7 +6,7 @@ var router = express.Router();
 router.get('/', function(req, res) {
     axios.get('http://localhost:6001/api/events')
          .then(events => {
-             res.render('events', {eventos: events.data})
+             res.render('admin/events', {eventos: events.data})
          })
 });
 

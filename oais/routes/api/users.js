@@ -4,7 +4,13 @@ var encryptPassword = require('encrypt-password')
 var UserController = require('../../controllers/userController')
 var router = express.Router();
 
-/* GET Lists users */
+/*
+ * method: GET 
+ * route : api/users
+ * 
+ * Obtem lista de utilizadores
+ * 
+ */
 router.get('/', function(req, res) {
   UserController.listAll()
                 .then(dados => {
@@ -15,7 +21,13 @@ router.get('/', function(req, res) {
                 })
 });
 
-/* GET one specific user */
+/*
+ * method: GET 
+ * route : api/users/:id
+ * 
+ * Obtem um determinado utilizador
+ * 
+ */
 router.get('/:id', function(req, res) {
   UserController.getUserById(req.params.id)
                 .then(dados => {
@@ -26,7 +38,13 @@ router.get('/:id', function(req, res) {
                 })
 });
 
-/* POST create a user */
+/*
+ * method: POST
+ * route : api/users/:id
+ * 
+ * Adiciona um utilizador
+ * 
+ */
 router.post('/', function(req, res) {
   /* Gets form data from request body */
   var form = new formidable.IncomingForm();
@@ -44,7 +62,13 @@ router.post('/', function(req, res) {
   })
 });
 
-/* PUT updates a user */
+/*
+ * method: PUT
+ * route : api/users/:id
+ * 
+ * Atualiza um utilizador
+ * 
+ */
 router.put('/:id', function(req, res) {
     /* Gets form data from request body */
     var form = new formidable.IncomingForm();
@@ -62,7 +86,13 @@ router.put('/:id', function(req, res) {
 
 });
 
-/* DELETE removes a specific user */
+/*
+ * method: DELETE
+ * route : api/users/:id
+ * 
+ * Elimina um utilizador
+ * 
+ */
 router.delete('/:id', function(req, res) {
   UserController.removeUser(req.params.id)
   res.end()

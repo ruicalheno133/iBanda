@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title OAIS
+    link(rel='stylesheet', href='/stylesheets/w3.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Oswald")
+    script(src="/javascripts/jquery-3.3.1.min.js")
+    script(src="/javascripts/jquery-validator.js")
+    script(src="/javascripts/index.js")
+  body.bg
+    .w3-bar.w3-container.w3-padding-large
+        .w3-center
+            a(href="http://localhost:6001/")
+                img(src="http://localhost:6001/images/ibanda.png" style="width: 20%")
+        //.w3-right
+            a(href="http://localhost:6001/login").w3-bar-item.w3-button Login
+            a(href="http://localhost:6001/register").w3-bar-item.w3-button Registo
+    block content
