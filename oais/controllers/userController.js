@@ -8,12 +8,6 @@ UserController.listAll = () => {
                     .exec()
 } 
 
-/* Lista um determinado utilizador */
-UserController.getUser = (id) => {
-    return UserModel.findOne({_id: id})
-                    .exec()
-} 
-
 /* Adiciona um novo utilizador */
 UserController.addUser = (user) => {
     UserModel.create(user)
@@ -30,9 +24,16 @@ UserController.updateUser = (id, user) => {
              .exec()
 }
 
-/* Obtem palavra passe de utilizador */
-UserController.getPassword = (username) => {
-    return UserModel.findOne({username: username}, {_id: 0, password: 1})
+/* Obtem determinado utilizador */
+UserController.getUser = (email) => {
+    return UserModel.findOne({email: email})
+                    .exec()
+} 
+
+/* Obtem determinado utilizador */
+UserController.getUserById = (id) => {
+    return UserModel.findById(id)
+                    .exec()
 } 
 
 /* Exporta o User Controller */

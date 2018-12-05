@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 
 /* GET one specific user */
 router.get('/:id', function(req, res) {
-  UserController.getUser(req.params.id)
+  UserController.getUserById(req.params.id)
                 .then(dados => {
                   res.jsonp(dados)
                 })
