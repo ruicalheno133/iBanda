@@ -1,7 +1,4 @@
 var express = require('express');
-var formidable = require('formidable')
-var encryptPassword = require('encrypt-password')
-var UserController = require('../../controllers/userController')
 var axios = require('axios')
 var router = express.Router();
 

@@ -5,7 +5,7 @@ block content
         .w3-card-4.w3-display-middle(style="width:40%; opacity: 0.8;").w3-theme-1
             h3.w3-center Bem Vindo/a
             .w3-container
-                form.w3-container(action='/processaLogin', method='POST')
+                form.w3-container(action='/processLogin', method='POST')
                     label.w3-text.w3-center
                         b Email:
                     input.w3-input.w3-block.w3-theme-1(type='text', name='email',placeholder='Endereço de email')
@@ -14,5 +14,5 @@ block content
                         b Password:
                     input.w3-input.w3-block.w3-theme-1(type='password', name='password', placeholder='Password')
                     br
-                .w3-center.w3-block.w3-margin-bottom
-                    button.w3-btn.w3-center.w3-theme-5(type='submit', style='width: 60%') Iniciar Sessão
+                    .w3-center.w3-block.w3-margin-bottom
+                        button.w3-btn.w3-center.w3-theme-5(type='submit', style='width: 60%') Iniciar Sessão

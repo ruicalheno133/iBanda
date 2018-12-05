@@ -4,18 +4,10 @@ var router = express.Router();
 
 /* GET lista de utiliadores */
 router.get('/', function(req, res) {
-    res.render('events')
-});
-
-
-/* POST create a user */
-router.post('/', function(req, res) {
-
-});
-
-/* PUT altera um utilizador */
-router.put('/:id', function(req, res) {
-
+    axios.get('http://localhost:6001/api/events')
+         .then(events => {
+             res.render('events', {eventos: events.data})
+         })
 });
 
 module.exports = router;
