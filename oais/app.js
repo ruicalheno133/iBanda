@@ -15,15 +15,11 @@ var flash = require('connect-flash')
 var indexRouter = require('./routes/index');
 var adminUsersRouter = require('./routes/admin/users');
 var adminEventsRouter = require('./routes/admin/events');
-<<<<<<< HEAD
 var usersAPIRouter = require('./routes/api/users')
 var eventsAPIRouter = require('./routes/api/events')
-
 var UserController = require('./controllers/userController')
-=======
 var musicoEventsRouter = require('./routes/musico/events');
 var usersAPIRouter = require('./routes/api/users');
->>>>>>> 25f4a8d013953db159e2ca9e9b3053ab02500777
 
 var app = express();
 
@@ -93,12 +89,8 @@ app.use('/', indexRouter);
 app.use('/admin/users', adminUsersRouter);
 app.use('/admin/events', adminEventsRouter);
 app.use('/api/users', usersAPIRouter);
-<<<<<<< HEAD
 app.use('/api/events', eventsAPIRouter);
-
-=======
 app.use('/musico/events', musicoEventsRouter);
->>>>>>> 25f4a8d013953db159e2ca9e9b3053ab02500777
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
