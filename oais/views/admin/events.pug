@@ -11,16 +11,16 @@ block content
                         i.fas.fa-plus.w3-display-middle(style="opacity: 0.7;")
             for e in eventos
                 .w3-col.l3.m6(style="height: 100%; ").w3-section
-                    .w3-card.w3-margin(style="height: 100%;").w3-theme-1.w3-display-container
+                    .w3-card.w3-margin.w3-theme-1.w3-display-container(style="height: 100%;")
                         h4.w3-center(style="box-shadow: 0 3px 8px -4px grey;").w3-theme-4
                                 b= e.nome
                                 br 
                                 b= e.data
-                        table.w3-margin-left
+                        table.w3-margin-left(style="width: 90%;")
                                         tr
                                             td.w3-center
                                                 i.fas.fa-info
-                                            td= e.descricao
+                                            td= e.descricao 
                                         tr
                                             td.w3-center
                                                 i.fas.fa-map-marker-alt
@@ -29,7 +29,7 @@ block content
                                             td.w3-center
                                                 i.far.fa-clock
                                             td= e.hora
-                        table.w3-section(style="width: 100%;").w3-display-bottom
+                        table.w3-section(style="width: 100%;").w3-display-bottommiddle
                                         tr
                                             td.w3-center
                                                 i.fas.fa-check

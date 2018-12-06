@@ -17,6 +17,7 @@ var adminUsersRouter = require('./routes/admin/users');
 var adminEventsRouter = require('./routes/admin/events');
 var usersAPIRouter = require('./routes/api/users')
 var eventsAPIRouter = require('./routes/api/events')
+var obrasAPIRouter = require('./routes/api/obras')
 var UserController = require('./controllers/userController')
 var musicoEventsRouter = require('./routes/musico/events');
 var usersAPIRouter = require('./routes/api/users');
@@ -90,6 +91,7 @@ app.use('/admin/users', adminUsersRouter);
 app.use('/admin/events', adminEventsRouter);
 app.use('/api/users', usersAPIRouter);
 app.use('/api/events', eventsAPIRouter);
+app.use('/api/obras', obrasAPIRouter);
 app.use('/musico/events', musicoEventsRouter);
 
 // catch 404 and forward to error handler

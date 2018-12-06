@@ -25,8 +25,8 @@ EventController.removeEvent = (id) => {
 }
 
 /* Atualiza um evento */
-EventController.updateEvent = (id, Event) => {
-    EventModel.findByIdAndUpdate(id, Event, {upsert: true})
+EventController.updateEvent = (id, event) => {
+    EventModel.findByIdAndUpdate(id, event)
              .exec()
 }
 

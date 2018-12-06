@@ -20,7 +20,7 @@ UserController.removeUser = (id) => {
 
 /* Atualiza um utilizador */
 UserController.updateUser = (id, user) => {
-    UserModel.findByIdAndUpdate(id, user, {upsert: true})
+    UserModel.findByIdAndUpdate(id, user)
              .exec()
 }
 

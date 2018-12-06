@@ -1,20 +1,18 @@
 var express = require('express');
-var EventController = require('../../controllers/eventController')
+var ObraController = require('../../controllers/obraController')
 var formidable = require('formidable')
 var router = express.Router();
 
 
-/**
- * @api {get} /api/events Obtem lista de eventos
- * @apiName GetEventos
- * @apiGroup Eventos
+/*
+ * method: GET 
+ * route : api/events
  * 
- * @apiSuccess {Object[]} eventos Lista de eventos (é a resposta)
- * @apiSuccess {String} eventos.nome Nome do evento
+ * Obtem lista de eventos
  * 
  */
 router.get('/', function(req, res) {
-    EventController.listAll()
+    ObraController.listAll()
                   .then(dados => {
                     res.jsonp(dados)
                   })
@@ -23,18 +21,14 @@ router.get('/', function(req, res) {
                   })
   });
 
-/**
- * @api {get} /api/events/:id Obtem um determinado evento
- * @apiName GetEvento
- * @apiGroup Eventos
- * 
- * @apiParam {String} id ID do evento
- * 
- * @apiSuccess {String} nome Nome do evento
+/*
+ * method: GET 
+ * route : api/events/:id
+ * Obtem um determinado evento
  * 
  */
 router.get('/:id', function(req, res) {
-  EventController.getEventById(req.params.id)
+  ObraController.getObraById(req.params.id)
                 .then(dados => {
                   res.jsonp(dados)
                 })
@@ -43,21 +37,21 @@ router.get('/:id', function(req, res) {
                 })
 });
 
-/**
- * @api {post} /api/events Adiciona um evento
- * @apiName AddEvento
- * @apiGroup Eventos
+/*
+ * method: POST
+ * route : api/events/
+ * Adiciona um evento
  * 
  */
 router.post('/', function(req, res) {
   /* Gets form data from request body */
   var form = new formidable.IncomingForm();
- 
+  
   /* Parses the form */
   form.parse(req, (err, fields, files)=>{
     if (!err){
       /* Adds user to Database */
-      EventController.addEvent(fields)
+      ObraController.addObra(fields)
       res.end()
     } else {
       res.render("error", {error: err})
@@ -65,13 +59,10 @@ router.post('/', function(req, res) {
   })
 });
 
-/**
- * @api {put} /api/events/:id Atualiza um evento
- * @apiName UpdateEvento
- * @apiGroup Eventos
- * 
- * @apiParam {String} id ID do evento
- * 
+/*
+ * method: PUT
+ * route : api/events/:id
+ * Atualiza um determinado evento
  * 
  */
 router.put('/:id', function(req, res) {
@@ -82,7 +73,7 @@ router.put('/:id', function(req, res) {
   form.parse(req, (err, fields, files)=>{
     if (!err){
       /* Adds user to Database */
-      EventController.updateEvent(req.params.id, fields)
+      ObraController.updateObra(req.params.id, fields)
       res.end()
     } else {
       res.render("error", {error: err})
@@ -90,17 +81,14 @@ router.put('/:id', function(req, res) {
   })
 });
 
-/**
- * @api {delete} /api/events/:id Elimina um evento
- * @apiName DeleteEvento
- * @apiGroup Eventos
- * 
- * @apiParam {String} id ID do evento
- * 
+/*
+ * method: DELETE
+ * route : api/events/:id
+ * Elimina um determinado evento
  * 
  */
 router.delete('/:id', function(req, res) {
-  EventController.removeEvent(req.params.id)
+  ObraController.removeObra(req.params.id)
   res.end()
 });
 

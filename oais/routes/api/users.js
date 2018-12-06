@@ -4,11 +4,35 @@ var encryptPassword = require('encrypt-password')
 var UserController = require('../../controllers/userController')
 var router = express.Router();
 
-/*
- * method: GET 
- * route : api/users
+/**
+ * @api {get} /api/users Obtem lista de utilizadores
+ * @apiName GetUsers
+ * @apiGroup Users
  * 
- * Obtem lista de utilizadores
+ * @apiSuccess {Object[]} utilizadores Lista de utilizadores (é a resposta)
+ * @apiSuccess {String} utilizadores.nome Nome do utilizador
+ * @apiSuccess {String} utilizadores.sexo Sexo do utilizador 
+ * @apiSuccess {String} utilizadores.tipo Tipo de utilizador (Músico ou Produtor)
+ * @apiSuccess {String} utilizadores.email Email do utilizador 
+ * @apiSuccess {String} utilizadores.password Password do utilizador
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * [ 
+ *  {
+ *    "nome"    : "Joaquim Alberto",
+ *    "sexo"    : "Masculino",
+ *    "tipo"    : "Músico",
+ *    "email"   : "ja123@mail.com",
+ *    "password": "pass"
+ *  }.
+ *  {
+ *    "nome"    : "Ana Matilde",
+ *    "sexo"    : "Feminino",
+ *    "tipo"    : "Produtor",
+ *    "email"   : "am123@mail.com",
+ *    "password": "pass"
+ *  }
+ * ]
  * 
  */
 router.get('/', function(req, res) {
@@ -21,11 +45,27 @@ router.get('/', function(req, res) {
                 })
 });
 
-/*
- * method: GET 
- * route : api/users/:id
+/**
+ * @api {get} /api/users/:id Obtem um determinado utilizador
+ * @apiName GetUser
+ * @apiGroup Users
  * 
- * Obtem um determinado utilizador
+ * @apiParam {String} id ID do utilizador
+ * 
+ * @apiSuccess {String} nome Nome do utilizador
+ * @apiSuccess {String} sexo Sexo do utilizador 
+ * @apiSuccess {String} tipo Tipo de utilizador (Músico ou Produtor)
+ * @apiSuccess {String} email Email do utilizador 
+ * @apiSuccess {String} password Password do utilizador
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *    "nome"    : "Joaquim Alberto",
+ *    "sexo"    : "Masculino",
+ *    "tipo"    : "Músico",
+ *    "email"   : "ja123@mail.com",
+ *    "password": "pass"
+ *  }
  * 
  */
 router.get('/:id', function(req, res) {
@@ -38,11 +78,10 @@ router.get('/:id', function(req, res) {
                 })
 });
 
-/*
- * method: POST
- * route : api/users/:id
- * 
- * Adiciona um utilizador
+/**
+ * @api {post} /api/users Adiciona um utilizador
+ * @apiName AddUser
+ * @apiGroup Users
  * 
  */
 router.post('/', function(req, res) {
@@ -62,11 +101,13 @@ router.post('/', function(req, res) {
   })
 });
 
-/*
- * method: PUT
- * route : api/users/:id
+/**
+ * @api {put} /api/users/:id Atualiza um utilizador
+ * @apiName UpdateUser
+ * @apiGroup Users
  * 
- * Atualiza um utilizador
+ * @apiParam {String} id ID do utilizador
+ * 
  * 
  */
 router.put('/:id', function(req, res) {
@@ -86,11 +127,13 @@ router.put('/:id', function(req, res) {
 
 });
 
-/*
- * method: DELETE
- * route : api/users/:id
+/**
+ * @api {delete} /api/users/:id Elimina um utilizador
+ * @apiName DeleteUser
+ * @apiGroup Users
  * 
- * Elimina um utilizador
+ * @apiParam {String} id ID do utilizador
+ * 
  * 
  */
 router.delete('/:id', function(req, res) {

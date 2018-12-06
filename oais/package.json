@@ -7,6 +7,7 @@
     "dev": "nodemon --ignore sessions ./bin/www"
   },
   "dependencies": {
+    "apidoc": "^0.17.7",
     "axios": "^0.18.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
@@ -23,5 +24,11 @@
     "pug": "2.0.0-beta11",
     "session-file-store": "^1.2.0",
     "uuid": "^3.3.2"
+  },
+  "apidoc": {
+    "name": "iBanda API",
+    "version": "1.0.0",
+    "description": "Documentação da API iBanda.",
+    "title": "iBanda API"
   }
 }
