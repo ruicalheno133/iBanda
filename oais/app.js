@@ -21,6 +21,7 @@ var obrasAPIRouter = require('./routes/api/obras')
 var UserController = require('./controllers/userController')
 var musicoEventsRouter = require('./routes/musico/events');
 var usersAPIRouter = require('./routes/api/users');
+var musicoObrasRouter = require('./routes/musico/obras')
 
 var app = express();
 
@@ -93,6 +94,8 @@ app.use('/api/users', usersAPIRouter);
 app.use('/api/events', eventsAPIRouter);
 app.use('/api/obras', obrasAPIRouter);
 app.use('/musico/events', musicoEventsRouter);
+app.use('/musico/obras',musicoObrasRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

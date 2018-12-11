@@ -4,7 +4,10 @@ var router = express.Router();
 
 /* GET lista de eventos*/
 router.get('/', function(req, res) {
-    res.render('events_mus')
+    axios.get('http://localhost:6001/api/events')
+         .then(events => {
+             res.render('musico/events', {eventos: events.data})
+         })
 });
 
 

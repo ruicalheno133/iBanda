@@ -1,0 +1,24 @@
+extends musico_layout
+
+block content
+    header.w3-container(style="box-shadow: 0px 1px 6px grey")
+        h1.w3-center Obras
+    .w3-display-bottommiddle(style="overflow: scroll; width: 101%; height: 90%; border: 0px solid grey;")
+        input( id="searchObras" type="text" placeholder="Procurar...").w3-input.w3-margin
+        table( id="obrasTable").w3-table.w3-table-all
+            each o in obras
+                tr
+                    td
+                        .w3-bar
+                            .w3-bar-item
+                                if o.titulo
+                                    | #{o.titulo} 
+                                br     
+                                if o.compositor
+                                    | #{o.compositor}
+                    td.w3-display-container
+                        .w3-display-right
+                            a.w3-margin(href="/admin/users/" + u._id)
+                                i.fas.fa-eye
+                            a.w3-margin(class="buttonRemoveUser", href="/api/users/" + u._id)
+                                i.fas.fa-trash-alt
