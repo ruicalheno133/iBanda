@@ -9,9 +9,12 @@ router.get('/register', function(req, res) {
 
 /* GET lista de utiliadores */
 router.get('/', function(req, res) {
-    axios.get('http://localhost:6001/api/users')
+    axios.get('http://localhost:6001/api/users' )
          .then(users => {
              res.render('admin/users', {users : users.data})
+         })
+         .catch(err => {
+             res.render('error', {error:err})
          })
 });
 
@@ -22,6 +25,9 @@ router.get('/:id', function(req, res) {
     axios.get('http://localhost:6001/api/users/' + req.params.id)
     .then(user => {
         res.render('admin/user', {user : user.data})
+    })
+    .catch(err => {
+        res.render('error', {error:err})
     })
 });
 

@@ -6,11 +6,10 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy;
-var encryptPassword = require('encrypt-password')
 var uuid = require('uuid/v4')
 var session = require('express-session')
 var FileStore = require('session-file-store')(session)
-var flash = require('connect-flash')
+var flash = require('express-flash-messages')
 
 var indexRouter = require('./routes/index');
 var adminUsersRouter = require('./routes/admin/users');
@@ -26,7 +25,12 @@ var produtorEventsRouter = require('./routes/produtor/events')
 var produtorObrasRouter = require('./routes/produtor/obras')
 var produtorPerfilRouter = require('./routes/produtor/perfil')
 
+require('./authentication/auth')
+
 var app = express();
+
+app.use(flash())
+
 
 // Middleware da Sessão
 app.use(session({
@@ -44,38 +48,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/ibanda', {useNewUrlParser: true})
         .then(()=> {console.log('Mongo: Conexão efetuada (status: ' + mongoose.connection.readyState + ')')})
         .catch(()=> {console.log('Mongo: Erro na conexão')})
 
-// Estratégia de autenticação 
-passport.use(new LocalStrategy({
-  usernameField: 'email'
-  },
-  (email, password, done) => {
-    UserController.getUser(email)
-                  .then(user => {
-                    if (!user) {
-                      return done(null, false, {message: 'Utilizador inexistente!'})
-                    }
-                    var passwordEncrypted = encryptPassword(password, 'signatrue')
-                    if (passwordEncrypted != user.password) {
-                      return done(null, false, {message: 'Password inválida!'})
-                    }
-                    return done(null, user)
-                  })
-                  .catch(erro => done(erro))
-}))
-
-// Serialização do utilizador (Codificação)
-passport.serializeUser((user, done) => {
-  done(null, user._id)
-})
-
-// Deserialização do utilizador (Codificação)
-passport.deserializeUser((uid, done) => {
-  UserController.getUserById(uid)
-                .then(user => done(null, user))
-                .catch(erro => done(erro, false))
-})
-
-
 
 app.use(passport.initialize())
 app.use(passport.session())
@@ -91,23 +63,22 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/admin/users', adminUsersRouter);
-app.use('/admin/events', adminEventsRouter);
-app.use('/api/users', usersAPIRouter);
-app.use('/api/events', eventsAPIRouter);
-app.use('/api/obras', obrasAPIRouter);
-app.use('/musico/events', musicoEventsRouter);
-app.use('/musico/obras',musicoObrasRouter);
-app.use('/produtor/events', produtorEventsRouter);
-app.use('/produtor/obras', produtorObrasRouter);
-app.use('/produtor/perfil', produtorPerfilRouter);
+app.use('/admin/users',  passport.authenticate('jwt-admin', {session: false}), adminUsersRouter);
+app.use('/admin/events',passport.authenticate('jwt-admin', {session: false}), adminEventsRouter);
+app.use('/api/users',usersAPIRouter);
+app.use('/api/events',eventsAPIRouter);
+app.use('/api/obras',obrasAPIRouter);
+app.use('/musico/events',passport.authenticate('jwt-musico', {session: false}), musicoEventsRouter);
+app.use('/musico/obras', passport.authenticate('jwt-musico', {session: false}), musicoObrasRouter);
+app.use('/produtor/events', passport.authenticate('jwt-produtor', {session: false}), produtorEventsRouter);
+app.use('/produtor/obras',passport.authenticate('jwt-produtor', {session: false}), produtorObrasRouter);
+app.use('/produtor/perfil',passport.authenticate('jwt-produtor', {session: false}), produtorPerfilRouter);
 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

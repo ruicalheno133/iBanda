@@ -8,6 +8,9 @@ router.get('/', function(req, res) {
          .then(users => {
              res.render('produtor/perfil', {user: users.data})
          })
+         .catch(err => {
+            res.render('error', {error:err})
+        })
 });
 
 

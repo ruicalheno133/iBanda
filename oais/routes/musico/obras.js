@@ -8,6 +8,9 @@ router.get('/', function(req, res) {
          .then(obras => {
              res.render('musico/obras', {obras: obras.data})
          })
+         .catch(err => {
+            res.render('error', {error:err})
+        })
 });
 
 

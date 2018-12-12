@@ -8,6 +8,9 @@ router.get('/', function(req, res) {
          .then(events => {
              res.render('admin/events', {eventos: events.data})
          })
+         .catch(err => {
+            res.render('error', {error:err})
+        })
 });
 
 module.exports = router;
