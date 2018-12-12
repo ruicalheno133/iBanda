@@ -1,0 +1,30 @@
+extends produtor_layout
+
+block content
+        header.w3-container.w3-block(style="box-shadow: 0px 1px 6px grey")
+            h1 Nova Obra
+        form.w3-container(id="formRegistration" style="width: 100%")
+            br
+            form.w3-container(action='/', method='POST', enctype='multipart/form-data')
+                    input.w3-input.w3-border.w3-light-grey(type='text', name='desc', style='width:40%',placeholder='Título da Obra')
+                    input.w3-input.w3-border.w3-light-grey(type='file', name='ficheiro', style='width:40%')
+            br
+            h4.w3-container
+                u Informações Adicionais
+                br
+                i Ainda a adicionar
+            //hr
+            //.w3-container
+                header.w3-container.w3-teal
+                    h3 Ficheiros Recebido
+            //.w3-container
+                table.w3-table-all
+                    tr
+                        th Ficheiros
+                        th Descrição
+                    each c in lista
+                        tr
+                            td
+                                a(href=c.ficheiro.path)= c.ficheiro.name
+                            td= c.desc
+            input.w3-btn.w3-blue-grey.w3-margin.w3-right(type='submit', value='Registar', id="buttonRegister")

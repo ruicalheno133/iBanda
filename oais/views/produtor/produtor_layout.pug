@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title OAIS
+    link(rel='stylesheet', href='/stylesheets/w3.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow")
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous")
+    script(src="/javascripts/jquery-3.3.1.min.js")
+    script(src="/javascripts/jquery-validator.js")
+    script(src="/javascripts/index.js")
+  body
+        .w3-sidebar.w3-bar-block.w3-container.w3-padding-large(id="navbar" style="width: 20%; box-shadow: 1px 0px 10px grey").w3-theme-4
+            .w3-center
+                a(href="/produtor")
+                    img(src="/images/ibanda.png" style="width: 70%")
+            a(href="/produtor/perfil").w3-bar-item.w3-button Perfil
+            a(href="/produtor/events").w3-bar-item.w3-button Eventos
+            button(id="buttonObrasDropdown").w3-bar-item.w3-button Obras (dropdown não está a funcionar)
+            .w3-container.w3-hide(id="ObrasDropdown" style="opacity: 0.8")
+                a(href="/produtor/obras").w3-bar-item.w3-button Ver Obras
+                a(href="/produtor/obras/register").w3-bar-item.w3-button Registar Obra
+            a(href="#").w3-bar-item.w3-button Sair
+        .w3-display-container(style="margin-left: 20%; height: 100%").w3-theme-1
+            block content

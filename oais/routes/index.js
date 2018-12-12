@@ -24,4 +24,9 @@ router.get('/musico',function (req,res,next){
   res.render("musico_layout");
 })
 
+/*GET produtor page. */
+router.get('/produtor',function (req,res,next){
+  res.render("produtor/produtor_layout");
+})
+
 module.exports = router;
