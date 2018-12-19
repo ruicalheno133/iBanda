@@ -51,7 +51,7 @@ router.get('/musico', passport.authenticate('jwt-musico'), (req,res) => {
 
 /*GET produtor page. */
 router.get('/produtor',passport.authenticate('jwt-produtor'), (req,res) => {
-  res.render("produtor/produtor_layout");
+  res.render("produtor/produtor_layout", {id: req.user._id});
 })
 
 module.exports = router;

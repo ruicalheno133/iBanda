@@ -49,16 +49,21 @@ router.post('/', function(req, res) {
   
   /* Parses the form */
   form.parse(req, (err, fields, files)=>{
-    if (!err){
-      /* Adds user to Database */
-      ObraController.addObra(fields)
-      res.end()
-    } else {
-      res.render("error", {error: err})
-    }
+    var fenviado = files.ficheiro.path
+    var fnovo = 'uploaded/' + files.ficheiro.name
+    files.desc = fields.desc
+    files.ficheiro.path = fnovo
+  
+    fs.rename(fenviado, fnovo, erro =>{
+      if(!erro)
+        res.render('produtor/registo_obras')
+      else{
+        res.render('error.pug', {e: "Ocorreram erros na gravação do ficheiro enviado: " + erro})
+        res.end()
+      }
+    })
   })
-});
-
+})
 /*
  * method: PUT
  * route : api/events/:id

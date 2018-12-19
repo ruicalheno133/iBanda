@@ -11,11 +11,14 @@ block content
                     td
                         .w3-bar
                             .w3-bar-item
-                                if o.tipo
-                                    | #{o.tipo} 
+                                | Título
                                 br     
-                                if o.titulo
-                                    | #{u.titulo}
+                                | Descrição
+                    //each c in lista
+                        tr
+                            td
+                                a(href=c.ficheiro.path)= c.ficheiro.name
+                            td= c.desc
                     td.w3-display-container
                         .w3-display-right
                             a.w3-margin(href="/produtor/obra/" + u._id)

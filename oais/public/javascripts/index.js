@@ -22,7 +22,7 @@ $(()=>{
     /* Validador de Campos */
 
     function validateFields () {
-        $('#formRegisto').validate({ 
+        $('#formRegistration').validate({ 
             rules: {
                 nome: {
                     required: true
@@ -114,14 +114,9 @@ $(()=>{
         toggleDropdown('musicosDropdown')
     })
 
-    function toggleDropdown(id) {
-        var x = document.getElementById(id);
-        if (x.className.indexOf("w3-show") == -1) {  
-            x.className += " w3-show";
-        } else { 
-            x.className = x.className.replace(" w3-show", "");
-        }
-    }
+    $('#buttonObrasDropdown').click(e =>{
+        toggleDropdown('ObrasDropdown')
+    })
 
     /* Search bar users */
 

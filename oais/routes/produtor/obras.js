@@ -20,8 +20,9 @@ router.get('/', function(req, res) {
 });
 
 /* POST cria obra */
-router.post('/', function(req, res) {
-
+router.post('/register', (req, res, next) => {
+    axios.get('http://localhost:6001/api/obras')
+        .then(res.render('produtor/registo_obras'))
 });
 
 /* PUT altera obra */

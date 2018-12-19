@@ -2,7 +2,7 @@ extends admin_layout
 
 block content
     header.w3-container
-        h1 Músico #{user.nome}
+        h1 #{user.tipo} #{user.nome}
     form.w3-container(id="formUpdate", user= user._id, style="width: 100%")
         table(style="width: 100%")
             tr 

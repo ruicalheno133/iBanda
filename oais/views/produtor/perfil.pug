@@ -17,12 +17,18 @@ block content
                         b Endereço de email:
                 td
                     input.w3-input(type='text', name='email', style='width:40%',placeholder= user.email, disabled)
+            tr 
+                td
+                    label.w3-text
+                        b Password:
+                td
+                    input.w3-input(type='password', name='password', style='width:40%', disabled)
             tr
                 td
                     label.w3-text 
                         b Sexo:
                 td
-                    select.w3-select(type='text', name='sexo', style='width:40%', disabled)
+                    select.w3-select(type='text', name='sexo', style='width:40%')
                         if user.sexo == "Masculino"
                             option(value="Masculino") Masculino
                             option(value="Feminino") Feminino
