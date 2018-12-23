@@ -30,11 +30,6 @@ $(()=>{
                 email: {
                   required: true,
                   email: true
-                },
-                password: {
-                    required: true,
-                    minlength: 8,
-                    number: true
                 }
               },
             messages: {
@@ -68,7 +63,7 @@ $(()=>{
             data: formData,
             processData: false,
             contentType: false,
-            success: result => {        
+            success: result => {       
                 $('#formRegistration').append('<p style="color: green;">Registado com sucesso.</p>')
             },
             error: error => {
@@ -79,7 +74,6 @@ $(()=>{
 
     function ajaxPut () {
         var formData = new FormData($('#formUpdate')[0])
-
         $.ajax({
             type: "PUT",
             url: '/api/users/' + $('#formUpdate').attr('user'),
@@ -126,4 +120,10 @@ $(()=>{
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
       });
+
+    /* Remover atributo 'disabled' quando clicamos np atualizar */
+
+    $("#buttonEdit").click(function(){
+        $(".inputsTobeEnabled").removeAttr("disabled");
+    })
 })

@@ -1,0 +1,46 @@
+extends musico_layout
+
+block content
+    header.w3-container(style="box-shadow: 0px 1px 6px grey")
+        h1 Perfil
+    br
+    form.w3-container(id="formUpdate", user= user._id, style="width: 100%")
+        table(style="width: 100%")
+            tr 
+                td
+                    label.w3-text
+                    b Nome: 
+                td
+                    input.w3-input(class='inputsTobeEnabled',type='text', name='nome', style='width:40%',value= user.nome, disabled)
+            tr 
+                td
+                    label.w3-text
+                        b Endereço de email:
+                td
+                    input.w3-input(class='inputsTobeEnabled',type='text', name='email', style='width:40%',value= user.email, disabled)
+            tr 
+                td
+                    label.w3-text
+                        b Password:
+                td
+                    input.w3-input(class='inputsTobeEnabled',type='password', name='password', style='width:40%', value=user.password,disabled)
+            tr
+                td
+                    label.w3-text 
+                        b Sexo:
+                td
+                    select.w3-select(type='text', name='sexo', style='width:40%')
+                        if user.sexo == "Masculino"
+                            option(value="Masculino") Masculino
+                            option(value="Feminino") Feminino
+                            option(value="Outro") Outro
+                        else if user.sexo == "Feminino"
+                            option(value="Masculino") Masculino
+                            option(value="Feminino" selected) Feminino
+                            option(value="Outro") Outro
+                        else 
+                            option(value="Masculino") Masculino
+                            option(value="Feminino") Feminino
+                            option(value="Outro"  selected) Outro
+        input.w3-btn.w3-blue-grey.w3-margin.w3-right(type='submit', value='Atualizar', id="buttonUpdate")
+        input.w3-btn.w3-blue-grey.w3-margin.w3-right(type='button', value='Editar', id="buttonEdit")

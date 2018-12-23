@@ -28,7 +28,7 @@ UserController.updateUser = (id, user) => {
 UserController.getUser = (email) => {
     return UserModel.findOne({email: email})
                     .exec()
-} 
+}
 
 /* Obtem determinado utilizador */
 UserController.getUserById = (id) => {
