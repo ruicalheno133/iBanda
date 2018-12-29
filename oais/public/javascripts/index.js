@@ -84,7 +84,6 @@ $(()=>{
                 $('#formUpdate').append('<p style="color: green;">Atualizado com sucesso.</p>')
             },
             error: error => {
-
             }
           });
     }

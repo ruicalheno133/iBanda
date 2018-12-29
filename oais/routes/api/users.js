@@ -115,13 +115,16 @@ router.put('/:id', function(req, res) {
     var form = new formidable.IncomingForm();
     console.log(req.user.password)
     var oldPass = req.user.password
+    
     /* Parses the form */
     form.parse(req, (err, fields, files)=>{
       if (!err){
+        console.log(fields.password)
         /* Adds user to Database */
         //Saber se a password foi alterada
         if(oldPass != fields.password){
-          fields.password= encryptPassword(fields.password)
+          fields.password=encryptPassword(fields.password)
+          console.log(fields.password)
         }
         //END
         UserController.updateUser(req.params.id, fields)
@@ -130,7 +133,6 @@ router.put('/:id', function(req, res) {
         res.render("error", {error: err})
       }
     })
-
 });
 
 /**

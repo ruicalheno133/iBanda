@@ -20,22 +20,19 @@ router.get('/logout', function(req, res) {
 
 router.post('/processLogin', (req, res, next) => {
   passport.authenticate('login', (err, user, info) => {     
-      try {
-          if(err || !user){
-              res.redirect('/')
-          }
+          if(!user){
+            return res.redirect('/')
+          } 
+          else if (err) { return next(err); }
+          else {
           req.login(user, { session : false }, (error) => {
-              if( error ) return next(error)
               var token = jwt.sign({ user : user },'pri2018');
               req.session.token = token
               if (user.tipo == "Músico") res.redirect('/musico')
               else if (user.tipo == "Produtor") res.redirect('/produtor')
               else res.redirect('/admin')
           });     
-      } 
-      catch (error) {
-          return next(error);
-      }
+        }
   })(req, res, next);
 });
 
