@@ -137,6 +137,7 @@ router.post('/', (req, res, next) => {
 router.put('/:id', function(req, res) {
     /* Gets form data from request body */
     var form = new formidable.IncomingForm();
+
     /* Parses the form */
     form.parse(req, async (err, fields, files)=>{
       if (fields.password == '' || fields.password == undefined) {
@@ -145,7 +146,6 @@ router.put('/:id', function(req, res) {
         fields.password = await bcrypt.hash(fields.password, 10)
       }
       if (!err){
-        //END
         UserController.updateUser(req.params.id, fields)
                       .then(result => {
                         if (result)
@@ -161,7 +161,6 @@ router.put('/:id', function(req, res) {
         res.status(500).jsonp(err)
       }
     })
-
 });
 
 /**
