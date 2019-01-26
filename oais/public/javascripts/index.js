@@ -1,12 +1,16 @@
 $(()=>{
     /* Cliques */
-
     $('#buttonRegister').click(e =>{
         e.preventDefault()
         validateFields()
         if ($('#formRegistration').valid()) {
-            ajaxPost()
+            ajaxPostUser()
         }
+    })
+
+    $('#buttonRegisterEvent').click(e =>{
+        e.preventDefault()
+        ajaxPostEvent()
     })
 
     $('#buttonUpdate').click(e =>{
@@ -14,9 +18,47 @@ $(()=>{
         ajaxPut()
     })
 
+    $('#buttonEdit').click(e =>{
+        e.preventDefault()
+        $('#formUpdate input').prop('disabled', false)
+        $('#formUpdate select').prop('disabled', false)
+    })
+
     $('.buttonRemoveUser').click(function(e){
         e.preventDefault()
         ajaxDelete($(this))
+    })
+
+    $('.buttonRemoveEvent').click(function(e){
+        e.preventDefault()
+        ajaxDeleteEvent($(this))
+    })
+
+
+
+    $profile_pic = $('#profile-pic').croppie({
+        enableExif: true,
+        viewport: {
+            width: 200,
+            height: 200,
+            type: 'circle'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+
+    $('#upload-img').on('change', function (){
+        console.log('hello')
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            console.log('event.target.result')
+            $profile_pic.croppie('bind', {
+                url: event.target.result
+            })
+        }
+        reader.readAsDataURL(this.files[0])
     })
 
     /* Validador de Campos */
@@ -54,7 +96,18 @@ $(()=>{
         })
     }
 
-    function ajaxPost () {
+    function ajaxDeleteEvent(element) {
+        var url = element.attr('href')
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: () =>{
+                element.closest('.w3-col').remove()
+            }
+        })
+    }
+
+    function ajaxPostUser (form_name) {
         var formData = new FormData($('#formRegistration')[0])
 
         $.ajax({
@@ -67,12 +120,32 @@ $(()=>{
                 $('#formRegistration').append('<p style="color: green;">Registado com sucesso.</p>')
             },
             error: error => {
-
+                $('#formRegistration').append('<p style="color: red;">Utilizador já existe.</p>')
             }
           });
     }
 
-    function ajaxPut () {
+    function ajaxPostEvent () {
+        var formData = new FormData($('#formEvent')[0])
+
+        $.ajax({
+            type: "POST",
+            url: '/api/events',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: result => {       
+                window.location.replace('/admin/events')
+                //$('#formRegistration').append('<p style="color: green;">Registado com sucesso.</p>')
+            },
+            error: error => {
+                $('#formEvent p').remove()
+                $('#formEvent').append('<p style="color: red;">Erro na criação do evento.</p>')
+            }
+          });
+    }
+
+    function ajaxPut() {
         var formData = new FormData($('#formUpdate')[0])
         $.ajax({
             type: "PUT",
@@ -84,7 +157,7 @@ $(()=>{
                 $('#formUpdate').append('<p style="color: green;">Atualizado com sucesso.</p>')
             },
             error: error => {
-
+                $('#formUpdate').append('<p style="color: red;"> Impossível de atualizar.</p>')
             }
           });
     }
@@ -111,15 +184,6 @@ $(()=>{
     $('#buttonObrasDropdown').click(e =>{
         toggleDropdown('ObrasDropdown')
     })
-
-    /* Search bar users */
-
-    $("#searchUsers").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#usersTable tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-      });
 
     /* Remover atributo 'disabled' quando clicamos np atualizar */
 

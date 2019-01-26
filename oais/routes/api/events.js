@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
                     res.jsonp(dados)
                   })
                   .catch(err => {
-                    res.render('erro', {error: err})
+                    res.status(500).jsonp(err)
                   })
   });
 
@@ -36,10 +36,13 @@ router.get('/', function(req, res) {
 router.get('/:id', function(req, res) {
   EventController.getEventById(req.params.id)
                 .then(dados => {
-                  res.jsonp(dados)
+                  if(dados)
+                    res.jsonp(dados)
+                  else 
+                    res.status(500).jsonp("Evento não existe.")
                 })
                 .catch(err => {
-                  res.render('erro', {error: err})
+                  res.status(500).jsonp(err)
                 })
 });
 
@@ -56,11 +59,15 @@ router.post('/', function(req, res) {
   /* Parses the form */
   form.parse(req, (err, fields, files)=>{
     if (!err){
-      /* Adds user to Database */
       EventController.addEvent(fields)
-      res.end()
+                     .then(result => {
+                        res.jsonp("Evento inserido com sucesso.")
+                     })
+                     .catch(err => {
+                        res.status(500).jsonp(err)
+                     })
     } else {
-      res.render("error", {error: err})
+      res.status(500).jsonp(err)
     }
   })
 });
@@ -81,11 +88,18 @@ router.put('/:id', function(req, res) {
   /* Parses the form */
   form.parse(req, (err, fields, files)=>{
     if (!err){
-      /* Adds user to Database */
       EventController.updateEvent(req.params.id, fields)
-      res.end()
+                      .then(result => {
+                        if(result)
+                          res.jsonp("Evento atualizado com sucesso.")
+                        else 
+                          res.status(500).jsonp("Evento não existe.")
+                      })
+                      .catch(err => {
+                        res.status(500).jsonp(err)
+                      })
     } else {
-      res.render("error", {error: err})
+      res.status(500).jsonp(err)
     }
   })
 });
@@ -101,7 +115,15 @@ router.put('/:id', function(req, res) {
  */
 router.delete('/:id', function(req, res) {
   EventController.removeEvent(req.params.id)
-  res.end()
+                .then(result => {
+                  if (result)
+                    res.jsonp("Evento removido com sucesso.")
+                  else 
+                    res.jsonp("Evento não existe.")
+                })
+                .catch(err => {
+                  res.status(500).jsonp(err)
+                })
 });
 
 

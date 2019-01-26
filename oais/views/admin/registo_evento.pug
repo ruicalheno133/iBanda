@@ -1,36 +1,32 @@
 
 header.w3-block.w3-container(style="box-shadow: 0px 3px 4px -3px black")
     h1.w3-left.w3-margin Novo Evento
-    span.w3-button.w3-right
+    span.w3-button.buttonCloseModal(onclick="document.getElementById('id01').style.display='none'")
         i.fas.fa-times
-form.w3-container(id="formRegistration" style="width: 100%")
-            br
-            label.w3-text
-                //b Nome: 
-            input.w3-input(type='text', name='nome', style='width:40%',placeholder='Nome')
-            br
-            label.w3-text
-                //b Endereço de email:
-            input.w3-input(type='text', name='email', style='width:40%',placeholder='Endereço de email')
-            br
-            label.w3-text
-            //b Password:
-            input.w3-input(type='password', name='password', style='width:40%',placeholder='Password')
-            br
-            table.w3-table(style='width:40%')
-                tr
-                    td
-                        label.w3-text Sexo &emsp;
-                    td
-                        select.w3-select(type='text', name='sexo')
-                            option(value="Masculino") Masculino
-                            option(value="Feminino") Feminino
-                            option(value="Outro") Outro
-                tr
-                    td
-                        label.w3-text Tipo de utilizador &emsp;
-                    td
-                        select.w3-select(type='text', name='tipo')
-                            option(value="Músico") Músico 
-                            option(value="Produtor") Produtor
-            input.w3-btn.w3-blue-grey.w3-margin.w3-right(type='submit', value='Registar', id="buttonRegister")
+form.w3-container(id="formEvent" style="width: 100%")
+    table.w3-container(style="width: 100%")
+        tr 
+            td
+                label.w3-text
+                    b Nome 
+            td
+                input.w3-input(type='text', name='nome', style='width:100%',placeholder='Nome')
+        tr    
+            td
+                label.w3-text
+                    b Descrição
+            td
+                input.w3-input(type='text', name='descricao', style='width:100%',placeholder='Descrição')
+        tr    
+            td
+                label.w3-text
+                    b Local
+            td
+                input.w3-input(type='text', name='local', style='width:100%',placeholder='Local')
+        tr
+            td
+                label.w3-text
+                    b Horário
+            td
+                input.w3-input(type='datetime-local', name='data', style='width:100%', value)
+    input.w3-btn.w3-blue-grey.w3-margin.w3-right(type='submit', value='Criar Evento', id="buttonRegisterEvent")

@@ -1,6 +1,6 @@
 var express = require('express');
 var formidable = require('formidable')
-var encryptPassword = require('encrypt-password')
+var bcrypt = require('bcrypt')
 var UserController = require('../../controllers/userController')
 var router = express.Router();
 
@@ -41,7 +41,7 @@ router.get('/', function(req, res) {
                   res.jsonp(dados)
                 })
                 .catch(err => {
-                  res.render('erro', {error: err})
+                  res.status(500).jsonp(err)
                 })
 });
 
@@ -70,11 +70,14 @@ router.get('/', function(req, res) {
  */
 router.get('/:id', function(req, res) {
   UserController.getUserById(req.params.id)
-                .then(dados => {
-                  res.jsonp(dados)
+                .then(result => {
+                  if(result)
+                    res.jsonp(result)
+                  else 
+                    res.status(500).jsonp("Utilizador não existe.")
                 })
                 .catch(err => {
-                  res.render('erro', {error: err})
+                  res.status(500).jsonp(err)
                 })
 });
 
@@ -84,22 +87,43 @@ router.get('/:id', function(req, res) {
  * @apiGroup Users
  * 
  */
+
 router.post('/', function(req, res) {
-  /* Gets form data from request body */
+  /* Gets form data from request body  */
   var form = new formidable.IncomingForm();
 
   /* Parses the form */
   form.parse(req, (err, fields, files)=>{
     if (!err){
-        fields.password = encryptPassword(fields.password, 'signatrue')
-      /* Adds user to Database */
-      UserController.addUser(fields)
-      res.end()
+      /* Adds user to Database  */
+      UserController.getUserByEmail(fields.email)
+                    .then(user => {
+                      if(!user) {
+                        UserController.addUser(fields)
+                        res.jsonp("Utilizador inserido com sucesso.")
+                      } else {
+                        res.status(500).jsonp("Utilizador já existe.")
+                      }
+                    })
+                    .catch(erro => {
+                      res.status(500).jsonp(erro)
+                    })
+
     } else {
-      res.render("error", {error: err})
+      res.status(500).jsonp(err)
     }
   })
-});
+}); 
+
+/*
+router.post('/', (req, res, next) => {
+  passport.authenticate('registo', (err, user, info) => {
+    if (!err) res.end()
+    else {
+      res.status(500).end()
+    }
+  })(req,res,next)
+})  */
 
 /**
  * @api {put} /api/users/:id Atualiza um utilizador
@@ -113,21 +137,28 @@ router.post('/', function(req, res) {
 router.put('/:id', function(req, res) {
     /* Gets form data from request body */
     var form = new formidable.IncomingForm();
-    console.log(req.user.password)
-    var oldPass = req.user.password
     /* Parses the form */
-    form.parse(req, (err, fields, files)=>{
+    form.parse(req, async (err, fields, files)=>{
+      if (fields.password == '' || fields.password == undefined) {
+        delete fields.password
+      } else {
+        fields.password = await bcrypt.hash(fields.password, 10)
+      }
       if (!err){
-        /* Adds user to Database */
-        //Saber se a password foi alterada
-        if(oldPass != fields.password){
-          fields.password= encryptPassword(fields.password)
-        }
         //END
         UserController.updateUser(req.params.id, fields)
-        res.end()
+                      .then(result => {
+                        if (result)
+                          res.jsonp("Utilizador atualizado com sucesso.")
+                        else 
+                          res.status(500).jsonp("Utilizador não existe.")
+                      })
+                      .catch(erro => {
+                        res.status(500).jsonp(erro)
+                      })
+
       } else {
-        res.render("error", {error: err})
+        res.status(500).jsonp(err)
       }
     })
 
@@ -144,7 +175,15 @@ router.put('/:id', function(req, res) {
  */
 router.delete('/:id', function(req, res) {
   UserController.removeUser(req.params.id)
-  res.end()
+                .then(result => {
+                  if (result)
+                    res.jsonp("Utilzador removido com sucesso."  + result)
+                  else 
+                    res.status(500).jsonp("Utilizador não existe.")
+                })
+                .catch(err => {
+                  res.status(500).jsonp(err)
+                })
 });
 
 module.exports = router;

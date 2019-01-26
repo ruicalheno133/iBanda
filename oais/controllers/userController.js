@@ -10,22 +10,23 @@ UserController.listAll = () => {
 
 /* Adiciona um novo utilizador */
 UserController.addUser = (user) => {
-    UserModel.create(user)
+    return UserModel.create(user)
 } 
 
 /* Remove um utilizador */
 UserController.removeUser = (id) => {
-    UserModel.findByIdAndDelete(id).exec()
+    return UserModel.findByIdAndRemove(id)
+             .exec()
 }
 
 /* Atualiza um utilizador */
 UserController.updateUser = (id, user) => {
-    UserModel.findByIdAndUpdate(id, user)
+    return UserModel.findByIdAndUpdate(id, user)
              .exec()
 }
 
 /* Obtem determinado utilizador */
-UserController.getUser = (email) => {
+UserController.getUserByEmail = (email) => {
     return UserModel.findOne({email: email})
                     .exec()
 }

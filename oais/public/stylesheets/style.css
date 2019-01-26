@@ -57,8 +57,6 @@ input.invalid {
   background-size: cover;
 }
 
-
-
 .w3-theme-1 {color:#373737 !important; background-color:#f1f3f3 !important}
 .w3-theme-2 {color:#000 !important; background-color:#dcd0c0 !important}
 .w3-theme-3 {color:#000 !important; background-color:#c0b283 !important}
@@ -77,4 +75,54 @@ input.invalid {
   outline: 1px solid #373737!important;
   box-shadow: 0px 0px !important;
   transition: 0.2s ease;
+}
+
+.buttonRemoveEvent {
+  position: absolute; 
+  top: -7px; 
+  right: -7px; 
+  border-radius: 50%; 
+  border: 1px solid #373737;
+  font-size: 1em;
+  width: 1.4em;
+  height: 1.4em;
+  padding : 0px;
+}
+
+.buttonRemoveEvent:hover {
+  color: #f4f4f4 !important;
+  background-color: #373737 !important;
+}
+
+.buttonCloseModal {
+  position: absolute; 
+  background-color: #f4f4f4;
+  color: #373737;
+  top: -7px; 
+  right: -7px; 
+  border-radius: 50%; 
+
+  font-size: 1em;
+  width: 1.4em;
+  height: 1.4em;
+  padding : 0px;
+}
+
+.buttonCloseModal:hover {
+  color: #f4f4f4 !important;
+  background-color: #373737 !important;
+}
+
+.addEventCard:hover {
+  background-color: #373737;
+  color: #f4f4f4;
+  opacity: 0.9;
+}
+
+.w3-sidebar .w3-bar-item:hover {
+  background-color: transparent !important;
+  color :inherit  !important;
+  -webkit-box-shadow: -11px -1px 0px -10px #dcd0c0;
+  -moz-box-shadow: -11px -1px 0px -10px #dcd0c0;
+  box-shadow: -11px -1px 0px -10px #dcd0c0;
 }

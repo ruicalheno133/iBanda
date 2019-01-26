@@ -11,9 +11,10 @@ block content
                     td
                         .w3-bar
                             .w3-bar-item
-                                | Título
+                                b 
+                                    big #{o.titulo}
                                 br     
-                                | Descrição
+                                | composto por #{o.compositor}
                     //each c in lista
                         tr
                             td
@@ -21,8 +22,8 @@ block content
                             td= c.desc
                     td.w3-display-container
                         .w3-display-right
-                            a.w3-margin(href="/produtor/obra/" + u._id)
+                            a.w3-margin(href="/produtor/obra/" + o._id)
                                 i.fas.fa-eye
-                            a.w3-margin(class="buttonRemoveObra", href="/api/obra/" + u._id)
+                            a.w3-margin(class="buttonRemoveObra", href="/api/obra/" + o._id)
                                 i.fas.fa-trash-alt
                                     

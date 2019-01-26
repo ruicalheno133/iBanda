@@ -18,8 +18,6 @@ router.get('/', function(req, res) {
          })
 });
 
-
-
 /* GET um utilizador */
 router.get('/:id', function(req, res) {
     axios.get('http://localhost:6001/api/users/' + req.params.id)

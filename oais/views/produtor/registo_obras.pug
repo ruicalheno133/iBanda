@@ -3,13 +3,7 @@ extends produtor_layout
 block content
         header.w3-container.w3-block(style="box-shadow: 0px 1px 6px grey")
             h1 Nova Obra
-        form.w3-container(style="width: 100%")
-            br
-            form.w3-container(action='/', method='POST', enctype='multipart/form-data')
-                    input.w3-input.w3-border.w3-light-grey(type='file', name='ficheiro', style='width:40%')
-            br
-            h4.w3-container
-                u Informações Adicionais
-                br
-                i Ainda a adicionar
-            input.w3-btn.w3-blue-grey.w3-margin.w3-right(type='submit', value='Enviar')
+        br
+        form.w3-container(id="formRegisterObra")
+            input.w3-input.w3-border.w3-light-grey(type='file', name='ficheiro', style='width:40%')
+            input.w3-btn.w3-blue-grey.w3-margin.w3-right(id="buttonRegisterObra" value='Enviar')

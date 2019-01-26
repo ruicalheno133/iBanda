@@ -5,7 +5,7 @@ var EventController = {}
 /* Lista todos os eventos */
 EventController.listAll = () => {
     return EventModel.find()
-                    .exec()
+                     .exec()
 } 
 
 /* Lista um determinado evento */
@@ -16,18 +16,19 @@ EventController.getEventById = (id) => {
 
 /* Adiciona um novo evento */
 EventController.addEvent = (event) => {
-    EventModel.create(event)
+    return EventModel.create(event)
 } 
 
 /* Remove um evento */
 EventController.removeEvent = (id) => {
-    EventModel.findByIdAndDelete(id).exec()
+    return EventModel.findByIdAndDelete(id)
+                     .exec()
 }
 
 /* Atualiza um evento */
 EventController.updateEvent = (id, event) => {
-    EventModel.findByIdAndUpdate(id, event)
-             .exec()
+    return EventModel.findByIdAndUpdate(id, event)
+                     .exec()
 }
 
 /* Exporta o Event Controller */

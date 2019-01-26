@@ -11,23 +11,24 @@ ObraController.listAll = () => {
 /* Lista um determinado Obra */
 ObraController.getObraById = (id) => {
     return ObraModel.findOne({_id: id})
-                     .exec()
+                    .exec()
 } 
 
 /* Adiciona um novo Obra */
 ObraController.addObra = (obra) => {
-    ObraModel.create(obra)
+    return ObraModel.create(obra)
 } 
 
 /* Remove um Obra */
 ObraController.removeObra = (id) => {
-    ObraModel.findByIdAndDelete(id).exec()
+    return ObraModel.findByIdAndDelete(id)
+                    .exec()
 }
 
 /* Atualiza um Obra */
 ObraController.updateObra = (id, obra) => {
-    ObraModel.findByIdAndUpdate(id, obra)
-             .exec()
+    return ObraModel.findByIdAndUpdate(id, obra)
+                    .exec()
 }
 
 /* Exporta o Obra Controller */

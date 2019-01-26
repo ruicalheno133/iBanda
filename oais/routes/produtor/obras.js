@@ -4,10 +4,7 @@ var router = express.Router();
 
 /* GET página de registo de obras */
 router.get('/register', function(req, res) {
-    axios.get('http://localhost:6001/api/obras')
-         .then(obras => {
-             res.render('produtor/registo_obras', {obras: obras.data})
-         })
+    res.render('produtor/registo_obras')
 });
 
 
