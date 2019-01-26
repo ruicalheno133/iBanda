@@ -1,6 +1,8 @@
 var express = require('express');
 var ObraController = require('../../controllers/obraController')
 var formidable = require('formidable')
+var AdmZip = require('adm-zip');
+var jsonfile = require('jsonfile')
 var fs = require('fs')
 var router = express.Router();
 
@@ -56,20 +58,49 @@ router.get('/:id', function(req, res) {
 router.post('/', function(req, res) {
   /* Gets form data from request body */
   var form = new formidable.IncomingForm();
-  
   /* Parses the form */
   form.parse(req, (err, fields, files)=>{
-    var fenviado = files.ficheiro.path
-    var fnovo = 'public/uploaded/' + files.ficheiro.name
-    files.ficheiro.path = fnovo
-  
-    fs.rename(fenviado, fnovo, erro =>{
-      if(!erro)
-        res.jsonp('Obra inserida com sucesso.')
-      else {
-        res.status(500).jsonp(erro)
-      }
-    })
+    var zipEnviado = files.ficheiro.path
+    var zip = new AdmZip(zipEnviado); 
+    //var zipEntries = zip.getEntries(); // entradas do zip
+    var manifesto = zip.getEntry('iBanda-SIP.json') // procura manifesto
+
+    if (!manifesto) { 
+      res.status(500).jsonp('Não existe manifesto.')
+      return 
+    }
+    else{
+      zip.extractAllTo('./temp/', true)
+      jsonfile.readFile('./temp/' + manifesto.entryName)
+              .then(obra =>{
+                for( n in obra.instrumentos) {
+                  var partitura = obra.instrumentos[n].partitura.path;
+                    if (!fs.existsSync('./temp/' + partitura)) {
+                      res.status(500).jsonp("Partitura não existe.")
+                      return
+                    }              
+              }
+                
+                ObraController.addObra(obra)
+                              .then(result => {
+                                zip.extractAllTo('./public/obras/' + obra._id, true)
+                                var zipNovo = './public/obras/' + obra._id + '/' + files.ficheiro.name 
+                                fs.rename(zipEnviado, zipNovo, erro => {
+                                  if (!erro) return res.jsonp("Inserida com sucesso.")
+                                  else res.status(500).jsonp("Erro ao inserir no Local Storage.")
+                                  console.log(erro)
+                                })
+
+                              })
+                              .catch(err => {
+                                console.log(err)
+                                res.status(500).jsonp("Erro ao inserir na BD.")
+                              })
+              })
+              .catch(error => console.error(error))
+
+        
+    }
   })
 })
 

@@ -20,6 +20,7 @@ var InstrumentoSchema = new mongoose.Schema(
 /* Obra Schema */
 var ObraSchema = new mongoose.Schema(
     {
+        _id             : {type: String, required: true},
         titulo          : {type: String, required: true},
         tipo            : {type: String},
         compositor      : {type: String},

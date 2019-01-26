@@ -7,6 +7,7 @@
     "dev": "nodemon --ignore sessions ./bin/www"
   },
   "dependencies": {
+    "adm-zip": "^0.4.13",
     "apidoc": "^0.17.7",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.3",
@@ -20,6 +21,7 @@
     "express-session": "^1.15.6",
     "formidable": "^1.2.1",
     "http-errors": "~1.6.2",
+    "jsonfile": "^5.0.0",
     "jsonwebtoken": "^8.4.0",
     "moment": "^2.24.0",
     "mongoose": "^5.3.12",
