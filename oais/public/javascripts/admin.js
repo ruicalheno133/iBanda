@@ -95,7 +95,6 @@ $(()=>{
             contentType: false,
             success: result => {       
                 window.location.replace('/admin/events')
-                //$('#formRegistration').append('<p style="color: green;">Registado com sucesso.</p>')
             },
             error: error => {
                 $('#formEvent p').remove()

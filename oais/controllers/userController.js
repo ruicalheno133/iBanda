@@ -25,6 +25,15 @@ UserController.updateUser = (id, user) => {
              .exec()
 }
 
+/* Atualiza a foto de Perfil */
+UserController.updateProfilePic = (id, profile_pic) => {
+    return UserModel.update({ _id: id},
+                    { $set: { 
+                        'profile_pic': profile_pic
+                    }
+                }).exec()
+}
+
 /* Obtem determinado utilizador */
 UserController.getUserByEmail = (email) => {
     return UserModel.findOne({email: email})

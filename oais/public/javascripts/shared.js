@@ -14,6 +14,35 @@ $(() => {
             ajaxPutUser()
     })
 
+    /* Para atualizar a foto de perfil de utilizador */
+     $('#buttonUpdateProfilePic').click(e =>{
+            e.preventDefault()
+            ajaxPutProfilePic()
+        })
+
+    /* 
+        AJAX PUT PROFILE PIC
+        Pedido PUT para atualizar a foto de perfil de um utilizador
+    */
+   function ajaxPutProfilePic() {
+    var formData = new FormData($('#formUpdateProfilePic')[0])
+    $.ajax({
+        type: "PUT",
+        url: '/api/users/profile-pic/' + $('#formUpdateProfilePic').attr('user'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: result => {        
+            $('#formUpdateProfilePic p').remove()
+            $('#formUpdateProfilePic').append('<p style="color: green;">Foto de perfil atualizada.</p>')
+        },
+        error: error => {
+            $('#formUpdateProfilePic p').remove()
+            $('#formUpdateProfilePic').append('<p style="color: red;">Erro ao atualizar foto de perfil.</p>')
+        }
+      });
+    }
+
     /* 
         AJAX PUT USER
         Pedido PUT para atualizar um utilizador
@@ -87,5 +116,30 @@ $(() => {
 
     $('#buttonObrasDropdown').click(e =>{
         toggleDropdown('ObrasDropdown')
+    })
+
+    $profile_pic = $('#croppie').croppie({
+        enableExif: true,
+        viewport: {
+            width: 200,
+            height: 200,
+            type: 'circle'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+
+    $('#upload-img').on('change', function (){
+        console.log('hello')
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            console.log('event.target.result')
+            $profile_pic.croppie('bind', {
+                url: event.target.result
+            })
+        }
+        reader.readAsDataURL(this.files[0])
     })
 })

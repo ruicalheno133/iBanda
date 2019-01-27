@@ -8,7 +8,8 @@ var UserSchema = new mongoose.Schema(
         sexo        : {type: String, required: true},
         email       : {type: String, required: true},
         password    : {type: String, required: true},
-        tipo        : {type: String, required: true}
+        tipo        : {type: String, required: true},
+        profile_pic : {type: String}
     }
 )
 
@@ -19,12 +20,6 @@ UserSchema.pre('save', async function (next){
     next()
 })
 
-/* Antes de Save executa callback */
-UserSchema.pre('update', async function (next){
-    var hash = await bcrypt.hash(this.password, 10)
-    this.password = hash
-    next()
-})
 
 /* Metodo para verificar password */
 UserSchema.methods.isValidPassword = async function (password) {

@@ -1,6 +1,7 @@
 var express = require('express');
 var formidable = require('formidable')
 var bcrypt = require('bcrypt')
+var fs = require('fs')
 var UserController = require('../../controllers/userController')
 var router = express.Router();
 
@@ -137,7 +138,7 @@ router.post('/', (req, res, next) => {
 router.put('/:id', function(req, res) {
     /* Gets form data from request body */
     var form = new formidable.IncomingForm();
-
+console.log(req.user)
     /* Parses the form */
     form.parse(req, async (err, fields, files)=>{
       if (fields.password == '' || fields.password == undefined) {
@@ -148,13 +149,22 @@ router.put('/:id', function(req, res) {
       if (!err){
         UserController.updateUser(req.params.id, fields)
                       .then(result => {
-                        if (result)
+                        if (result) {
+                          console.log(req.user)
+                          if(fields.password)
+                            req.user = fields 
+                          else 
+                            req.user = fields, {...req.user.password};
+                          console.log(req.user)
                           res.jsonp("Utilizador atualizado com sucesso.")
+                      }
                         else 
                           res.status(500).jsonp("Utilizador não existe.")
+                          
                       })
                       .catch(erro => {
                         res.status(500).jsonp(erro)
+                        console.log(erro)
                       })
 
       } else {
@@ -186,3 +196,38 @@ router.delete('/:id', function(req, res) {
 });
 
 module.exports = router;
+
+
+router.put('/profile-pic/:id', function(req, res) {
+  /* Gets form data from request body */
+  var form = new formidable.IncomingForm();
+
+  /* Parses the form */
+  form.parse(req, (err, fields, files)=>{
+    var fenviado = files.ficheiro.path 
+    var fnovo = 'public/uploaded/'+ files.ficheiro.name
+    var fpath = '/uploaded/' + files.ficheiro.name
+
+    if (!err){
+      fs.rename(fenviado, fnovo, err => {
+        if (!err) {
+          UserController.updateProfilePic(req.params.id, fpath)
+          .then(result => {
+            if (result)
+              res.jsonp("Obra atualizada com sucesso.")
+            else 
+              res.status(500).jsonp("Obra não existe")
+          })
+          .catch(erro => {
+            res.status(500).jsonp(erro)
+          })
+        } else {
+          res.status(500).jsonp(err)
+        }
+      })
+
+    } else {
+      res.status(500).jsonp(err)
+    }
+  })
+});

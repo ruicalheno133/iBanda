@@ -4,72 +4,87 @@ block content
         header.w3-container(style="box-shadow: 0px 1px 6px grey")
             h1 Obra #{obras.titulo}
         .w3-container
-            table(id="usersTable").w3-table.w3-table-all
-                    hr
-                    if obras.subtitulo
-                        tr
-                            th Subtítulo
-                            td= obras.subtitulo
-                    tr
-                        th Tipo
-                        td
-                            | #{obras.tipo}
-                    tr
-                        th Compositor
-                        td
-                            if obras.compositor
-                                | #{obras.compositor}
-                            else
-                                | N/A
-                    tr
-                        th Arranjo
-                        td
-                            if obras.arranjo
-                                | #{obras.arranjo}
-                            else 
-                                | N/A
-                    if obras.editado
-                        tr
-                            th Editado
-                            td= obras.editado
-                    if obras.instrumentos
-                        tr
-                            th Instrumentos:
-                            tr.w3-container.w3-border-top
-                                th Instrumento
-                                th Voz
-                                th Clave
-                                th Afinação
-                                th Path
-                        each c in obras.instrumentos
-                            tr.w3-container
-                                td
-                                    if c.nome
-                                        u=c.nome
-                                    else
-                                        | N/A
-                                td
-                                    if c.partitura.voz
-                                        | #{c.partitura.voz}
-                                    else 
-                                        | N/A
-                                td
-                                    if c.partitura.clave
-                                        | #{c.partitura.clave}
-                                    else 
-                                        | N/A
-                                td
-                                    if c.partitura.afinacao
-                                        | #{c.partitura.afinacao}
-                                    else 
-                                        | N/A
-                                td
-                                    if c.partitura.path
-                                        a(href=c.partitura.path)= c.partitura.path
-                                    else 
-                                        | N/A
-                    else
-                        tr
-                            th Instrumentos
-                            td
-                                | N/A
+            h4 Informação
+            table.w3-section(id="usersTable").w3-table
+                tr 
+                    td
+                        div(style=" border: 1px solid #ccc; border-radius: 10px !important;")
+                            table.w3-table
+                                if obras.titulo 
+                                    tr
+                                        th Título 
+                                        td= obras.titulo
+                                if obras.subtitulo
+                                    tr
+                                        th Subtítulo
+                                        td= obras.subtitulo
+                                tr
+                                    th Tipo
+                                    td
+                                        | #{obras.tipo}
+                                tr
+                                    th Compositor
+                                    td
+                                        if obras.compositor
+                                            | #{obras.compositor}
+                                        else
+                                            | N/A
+                                tr
+                                    th Arranjo
+                                    td
+                                        if obras.arranjo
+                                            | #{obras.arranjo}
+                                        else 
+                                            | N/A
+                                if obras.editado
+                                    tr
+                                        th Editado
+                                        td= obras.editado
+                    td(style="vertical-align: middle;")
+                        .w3-center
+                            a(href="/obras/" + obras._id + "/Archive3.zip" ).w3-button.myFancyButton 
+                                i.fas.fa-download
+                                |  Descarregue a obra
+                            br
+                            a(href="").w3-button.myFancyButton 
+                                i.fas.fa-edit
+                                |  Altere a obra
+            hr
+            h4 Instrumentos
+            table.w3-section(id="usersTable").w3-table.w3-table-all
+                if obras.instrumentos
+                            tr
+                                tr.w3-container.w3-border-top
+                                    th Instrumento
+                                    th Voz
+                                    th Clave
+                                    th Afinação
+                                    th 
+                            each c in obras.instrumentos
+                                tr.w3-container
+                                    td
+                                        if c.nome
+                                            | #{c.nome}
+                                        else
+                                            | N/A
+                                    td
+                                        if c.partitura.voz
+                                            | #{c.partitura.voz}
+                                        else 
+                                            | N/A
+                                    td
+                                        if c.partitura.clave
+                                            | #{c.partitura.clave}
+                                        else 
+                                            | N/A
+                                    td
+                                        if c.partitura.afinacao
+                                            | #{c.partitura.afinacao}
+                                        else 
+                                            | N/A
+                                    td
+                                        if c.partitura.path
+                                            a(href='/obras/' + obras._id + '/' + c.partitura.path ).w3-right
+                                                i.fas.fa-file-download
+                                        else 
+                                            | N/A

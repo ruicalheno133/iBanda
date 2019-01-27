@@ -1,0 +1,14 @@
+
+header.w3-block.w3-container(style="box-shadow: 0px 3px 4px -3px black")
+    h1.w3-left.w3-margin Alterar Foto de Perfil
+    span.w3-button.buttonCloseModal(onclick="document.getElementById('profile-pic-modal').style.display='none'")
+        i.fas.fa-times
+table.w3-container(style="width: 100%").w3-margin
+        tr 
+            td
+                label.w3-text
+                    b Foto de Perfil
+            td
+                form(id="formUpdateProfilePic" user= user._id)
+                    input(type='file', name='ficheiro', style='width:100%')
+                    input.w3-btn.w3-blue-grey.w3-margin.w3-right(type='submit', value='Alterar', id="buttonUpdateProfilePic")
