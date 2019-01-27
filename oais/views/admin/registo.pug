@@ -11,17 +11,20 @@ block content
                         //b Nome: 
                     input.w3-input(type='file', name='avatar', style='width:60%',placeholder='avatar', id="upload-img")
                     br
-                    label.w3-text
-                        //b Nome: 
-                    input.w3-input(type='text', name='nome', style='width:60%',placeholder='Nome')
+                    .myInputContainer
+                        label.myInputLabel
+                            b Nome 
+                        input.w3-input.myInputText(type='text', name='nome', style='width:60%;')
                     br
-                    label.w3-text
-                        //b Endereço de email:
-                    input.w3-input(type='text', name='email', style='width:60%',placeholder='Endereço de email')
+                    .myInputContainer
+                        label.myInputLabel
+                            b Email
+                        input.w3-input.myInputText(type='text', name='email', style='width:60%')
                     br
-                    label.w3-text
-                    //b Password:
-                    input.w3-input(type='password', name='password', style='width:60%',placeholder='Password')
+                    .myInputContainer
+                        label.myInputLabel
+                            b Password
+                        input.w3-input.myInputText(type='password', name='password', style='width:60%')
                     br
                     table.w3-table(style='width:60%')
                         tr
