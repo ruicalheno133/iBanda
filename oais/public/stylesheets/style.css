@@ -57,6 +57,21 @@ input.invalid {
   background-size: cover;
 }
 
+/* Obra Navbar*/
+
+#searchObras {
+  width: 20%;
+  border: 1px solid grey;
+}
+
+#obrasTable .fas {
+  opacity: 0.6;
+}
+
+#obrasTable .fas:hover {
+  opacity: 1;
+}
+
 .w3-theme-1 {color:#373737 !important; background-color:#f1f3f3 !important}
 .w3-theme-2 {color:#000 !important; background-color:#dcd0c0 !important}
 .w3-theme-3 {color:#000 !important; background-color:#c0b283 !important}

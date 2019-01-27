@@ -14,6 +14,7 @@ var flash = require('express-flash-messages')
 var indexRouter = require('./routes/index');
 var adminUsersRouter = require('./routes/admin/users');
 var adminEventsRouter = require('./routes/admin/events');
+var adminObrasRouter = require('./routes/admin/obras')
 var usersAPIRouter = require('./routes/api/users')
 var eventsAPIRouter = require('./routes/api/events')
 var obrasAPIRouter = require('./routes/api/obras')
@@ -73,6 +74,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/admin/users', passport.authenticate('jwt-admin', {session: false}), adminUsersRouter);
 app.use('/admin/events',passport.authenticate('jwt-admin', {session: false}), adminEventsRouter);
+app.use('/admin/obras',passport.authenticate('jwt-admin', {session: false}), adminObrasRouter);
 app.use('/api/users',usersAPIRouter);
 app.use('/api/events', eventsAPIRouter);
 app.use('/api/obras',obrasAPIRouter);

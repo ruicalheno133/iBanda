@@ -88,4 +88,12 @@ $(() => {
     $('#buttonObrasDropdown').click(e =>{
         toggleDropdown('ObrasDropdown')
     })
+
+    /* Obra search bar */
+    $("#searchObras").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#obrasTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
 })

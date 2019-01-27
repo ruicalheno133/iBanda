@@ -4,8 +4,8 @@ block content
     header.w3-container(style="box-shadow: 0px 1px 6px grey")
         h1 Obras 
     .w3-display-bottommiddle(style="overflow: scroll; width: 101%; height: 90%; border: 0px solid grey;")
-        input( id="searchUsers" type="text" placeholder="Procurar...").w3-input.w3-margin
-        table(id="usersTable").w3-table.w3-table-all
+        input( id="searchObras" type="text" placeholder="Procurar...").w3-input.w3-margin
+        table(id="obrasTable").w3-table.w3-table-all
             each o in obras 
                 tr
                     td
@@ -19,6 +19,4 @@ block content
                         .w3-display-right
                             a.w3-margin(href="/produtor/obras/" + o._id)
                                 i.fas.fa-eye
-                            //a.w3-margin(class="buttonRemoveObra", href="/api/obra/" + o._id)
-                                i.fas.fa-trash-alt
                                     

@@ -1,4 +1,4 @@
-extends musico_layout
+extends admin_layout
 
 block content
     header.w3-container(style="box-shadow: 0px 1px 6px grey")
@@ -19,5 +19,7 @@ block content
                                     | composto por #{o.compositor}
                     td.w3-display-container
                         .w3-display-right
-                            a.w3-margin(href="/musico/obras/" + o._id)
+                            a.w3-margin(href="/admin/obras/" + o._id)
                                 i.fas.fa-eye
+                            a.w3-margin(class="buttonRemoveUser", href="/api/users/" + o._id)
+                                i.fas.fa-trash-alt
