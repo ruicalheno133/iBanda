@@ -15,15 +15,10 @@ block content
                                     big #{o.titulo}
                                 br     
                                 | composto por #{o.compositor}
-                    //each c in lista
-                        tr
-                            td
-                                a(href=c.ficheiro.path)= c.ficheiro.name
-                            td= c.desc
                     td.w3-display-container
                         .w3-display-right
-                            a.w3-margin(href="/produtor/obra/" + o._id)
+                            a.w3-margin(href="/produtor/obras/" + o._id)
                                 i.fas.fa-eye
-                            a.w3-margin(class="buttonRemoveObra", href="/api/obra/" + o._id)
+                            //a.w3-margin(class="buttonRemoveObra", href="/api/obra/" + o._id)
                                 i.fas.fa-trash-alt
                                     
