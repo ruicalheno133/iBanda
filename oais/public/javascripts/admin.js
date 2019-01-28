@@ -86,7 +86,7 @@ $(()=>{
     */
     function ajaxPostEvent () {
         var formData = new FormData($('#formEvent')[0])
-
+    
         $.ajax({
             type: "POST",
             url: '/api/events',
@@ -97,6 +97,7 @@ $(()=>{
                 window.location.replace('/admin/events')
             },
             error: error => {
+                
                 $('#formEvent p').remove()
                 $('#formEvent').append('<p style="color: red;">Erro na criação do evento.</p>')
             }

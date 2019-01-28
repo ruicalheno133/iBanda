@@ -4,21 +4,24 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon --ignore sessions ./bin/www"
+    "dev": "nodemon --ignore sessions --ignore public/obras --ignore public/uploaded --ignore temp ./bin/www"
   },
   "dependencies": {
     "adm-zip": "^0.4.13",
     "apidoc": "^0.17.7",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.3",
+    "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
     "croppie": "^2.6.3",
     "debug": "~2.6.9",
     "encrypt-password": "^1.0.1",
     "express": "~4.16.0",
     "express-flash-messages": "^0.1.1",
     "express-session": "^1.15.6",
+    "form-data": "^2.3.3",
     "formidable": "^1.2.1",
     "http-errors": "~1.6.2",
     "jsonfile": "^5.0.0",

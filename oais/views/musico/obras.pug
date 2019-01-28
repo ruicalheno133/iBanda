@@ -12,13 +12,13 @@ block content
                         .w3-bar
                             .w3-bar-item
                                 if o.titulo
-                                    | #{o.titulo} 
-                                br     
+                                b
+                                    big #{o.titulo} 
                                 if o.compositor
-                                    | #{o.compositor}
+                                    |  composto por #{o.compositor}
+                                br 
+                                | inserida por - #{o.criador}
                     td.w3-display-container
                         .w3-display-right
-                            a.w3-margin(href="/admin/users/" + u._id)
+                            a.w3-margin(href="/musico/obras/" + o._id)
                                 i.fas.fa-eye
-                            a.w3-margin(class="buttonRemoveUser", href="/api/users/" + u._id)
-                                i.fas.fa-trash-alt

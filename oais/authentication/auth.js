@@ -117,7 +117,7 @@ passport.use('jwt-produtor', new JWTstrategy({
 
 passport.use('jwt-api-all', new JWTstrategy({
   secretOrKey: 'pri2018',
-  jwtFromRequest: ExtractJWT.fromUrlQueryParameter('api-key')
+  jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession, ExtractJWT.fromUrlQueryParameter('api-key')])
 }, (token, done) => {
   try{
       return done(null, token.user)

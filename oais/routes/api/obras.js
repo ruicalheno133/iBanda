@@ -62,47 +62,70 @@ router.post('/', function(req, res) {
   var form = new formidable.IncomingForm();
   /* Parses the form */
   form.parse(req, (err, fields, files)=>{
-    var zipEnviado = files.ficheiro.path
+    /* Unzipa */
+    var zipEnviado = files.ficheiro.path;
     var zip = new AdmZip(zipEnviado); 
     var partiturasErr = ""
-    //var zipEntries = zip.getEntries(); // entradas do zip
-    var manifesto = zip.getEntry('iBanda-SIP.json') // procura manifesto
 
+    /* Obtem manifesto */
+    var manifesto = zip.getEntry('iBanda-SIP.json')
+
+    /* Se não existir manifesto - ERRO */
     if (!manifesto) { 
-      res.status(500).jsonp('Não existe manifesto.')
-      return 
+      return res.status(500).jsonp('Não existe manifesto.')
     }
-    else{
+    else {
+      /* Extrair conteudo do ZIP para pasta temporária */
       zip.extractAllTo('./temp/', true)
+      /* Lê o manifesto */
       jsonfile.readFile('./temp/' + manifesto.entryName)
-              .then(obra =>{
-                for( n in obra.instrumentos) {
-                  var partitura = obra.instrumentos[n].partitura.path;
-                    if (!fs.existsSync('./temp/' + partitura)) {
-                      partiturasErr += `Partitura \'${partitura}\' não existe.\n`
-                    }            
-              }
+              .then(manifesto =>{
+                /* Verifica se as partituras existem */
+                partiturasErr = verifyPartituras(manifesto)
+                /* Se não existirem - ERRO */
                 if (partiturasErr != "") return res.status(500).jsonp(partiturasErr)
-                ObraController.addObra(obra)
+                /* Metadados (manifesto + criador) */
+                var obraUpdated = {...manifesto, ...{criador: req.user.nome, criador_id: req.user._id}}
+                /* Adiciona metadados à base de dados mongo */
+                ObraController.addObra(obraUpdated)
                               .then(result => {
-                                zip.extractAllTo('./public/obras/' + obra._id, true)
-                                var zipNovo = './public/obras/' + obra._id + '/' + files.ficheiro.name 
-                                fs.rename(zipEnviado, zipNovo, erro => {
+                                /* Se inseriu na BD, extrai ZIP para Local Storage */
+                                extraiZIP(zip, manifesto._id, zipEnviado, erro => {
                                   if (!erro) return res.jsonp("Inserida com sucesso.")
                                   else return res.status(500).jsonp("Erro ao inserir no Local Storage.")
                                 })
-
                               })
                               .catch(err => {
                                 return res.status(500).jsonp("Erro ao inserir na BD.")
                               })
               })
-              .catch(error => console.error(error))
-
-        
+              .catch(error => {return res.status(500).jsonp("Erro ao ler manifesto.")})
     }
   })
 })
+
+function verifyPartituras (manifesto) {
+  var partiturasErr = ""
+  for( n in manifesto.instrumentos) {
+    var partitura = manifesto.instrumentos[n].partitura.path;
+      if (!fs.existsSync('./temp/' + partitura)) {
+        partiturasErr += `Partitura \'${partitura}\' não existe.\n`
+      }     
+  return partiturasErr
+  }
+}
+
+function extraiZIP (zip, obraID, zipEnviado, callback) {
+  var extractTO = './public/obras/' + obraID
+  /* Extrai o conteudo do zip */
+  zip.extractAllTo(extractTO, true)
+  /* Guarda o zip no local storage */
+  var zipNovo = extractTO +  '/' + obraID + '.zip'
+  fs.rename(zipEnviado, zipNovo, erro => {
+    callback(erro)
+  })
+
+}
 
 /**
  * @api {put} /api/events/:id Atualiza uma obra
@@ -114,25 +137,45 @@ router.post('/', function(req, res) {
  * 
  */
 router.put('/:id', function(req, res) {
+  rimraf.sync("./temp");
   /* Gets form data from request body */
   var form = new formidable.IncomingForm();
-
   /* Parses the form */
   form.parse(req, (err, fields, files)=>{
-    if (!err){
-      ObraController.updateObra(req.params.id, fields)
-                    .then(result => {
-                      if (result)
-                        res.jsonp("Obra atualizada com sucesso.")
-                      else 
-                        res.status(500).jsonp("Obra não existe")
-                    })
-                    .catch(erro => {
-                      res.status(500).jsonp(erro)
-                    })
-    } else {
-      res.status(500).jsonp(err)
-      res.end()
+    /* Unzipa */
+    var zip = new AdmZip(zipEnviado); 
+    var partiturasErr = ""
+
+    /* Obtem manifesto */
+    var manifesto = zip.getEntry('iBanda-SIP.json')
+
+    /* Se não existir manifesto - ERRO */
+    if (!manifesto) { 
+      return res.status(500).jsonp('Não existe manifesto.')
+    }
+    else {
+      /* Extrair conteudo do ZIP para pasta temporária */
+      zip.extractAllTo('./temp/', true)
+      /* Lê o manifesto */
+      jsonfile.readFile('./temp/' + manifesto.entryName)
+              .then(manifesto =>{
+                /* Verifica se as partituras existem */
+                partiturasErr = verifyPartituras(manifesto)
+                /* Se não existirem - ERRO */
+                if (partiturasErr != "") return res.status(500).jsonp(partiturasErr)
+                /* Metadados (manifesto + criador) */
+                var obraUpdated = {...manifesto, ...{criador: req.user.nome, criador_id: req.user._id}}
+                /* Adiciona metadados à base de dados mongo */
+                ObraController.updateObra(req.params.id, obraUpdated)
+                              .then(result => {
+                                /* Se inseriu na BD, extrai ZIP para Local Storage */
+                                return extraiZIP(zip, obra._id, zipEnviado)
+                              })
+                              .catch(err => {
+                                return res.status(500).jsonp("Erro ao inserir na BD.")
+                              })
+              })
+              .catch(error => {return res.status(500).jsonp("Erro ao ler manifesto.")})
     }
   })
 });
@@ -147,16 +190,20 @@ router.put('/:id', function(req, res) {
  * 
  */
 router.delete('/:id', function(req, res) {
-  ObraController.removeObra(req.params.id)
-                .then(result => {
-                  if (result)
-                    res.jsonp("Obra Removida com sucesso.")
-                  else 
-                    res.status(500).jsonp("Obra não existe.")
-                })
-                .catch(err => {
-                  res.status(500).jsonp(err)
-                })
+  rimraf("./public/obras/" + req.params.id, err => {
+    if (err) return res.status(500).jsonp('Impossível de remover obra.')
+      ObraController.removeObra(req.params.id)
+      .then(result => {
+        if (result)
+          res.jsonp("Obra Removida com sucesso.")
+        else 
+          res.status(500).jsonp("Obra não existe.")
+      })
+      .catch(err => {
+        res.status(500).jsonp(err)
+      })
+  });
+
 });
 
 

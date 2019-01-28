@@ -25,11 +25,5 @@ ObraController.removeObra = (id) => {
                     .exec()
 }
 
-/* Atualiza um Obra */
-ObraController.updateObra = (id, obra) => {
-    return ObraModel.findByIdAndUpdate(id, obra)
-                    .exec()
-}
-
 /* Exporta o Obra Controller */
 module.exports = ObraController

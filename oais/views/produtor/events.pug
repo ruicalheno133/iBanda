@@ -3,15 +3,15 @@ extends produtor_layout
 block content
     header.w3-container(style="box-shadow: 0px 1px 6px grey")
         h1 Eventos
-    .w3-display-bottommiddle(style="overflow: scroll; width: 100%; height: 90%; border: 0px solid grey;")
+    .w3-display-bottommiddle(style="overflow: scroll;width: 100%; height: 90%; border: 0px solid grey;")
         .w3-row(style="height: 29%;")
             for e in eventos
-                .w3-col.l3.m6(style="height: 100%; ").w3-section
+                .w3-col.l4.m6(style="height: 100%; ").w3-section
                     .w3-card.w3-margin.w3-theme-1.w3-display-container(style="height: 100%;")
                         h4.w3-center(style="box-shadow: 0 3px 8px -4px grey;").w3-theme-4
                                 b= e.nome
                                 br 
-                                b= e.data
+                                b= moment(e.data).format('DD/MM/YYYY')
                         table.w3-margin-left(style="width: 90%;")
                                         tr
                                             td.w3-center
@@ -24,14 +24,4 @@ block content
                                         tr
                                             td.w3-center
                                                 i.far.fa-clock
-                                            td= e.hora
-                        
-                        table.w3-section(style="width: 100%;").w3-display-bottommiddle
-                                        tr
-                                            td.w3-center
-                                                i.fas.fa-check
-                                            td= e.aceite.length
-                                            td.w3-center
-                                                i.fas.fa-times
-                                            td= e.rejeitado.length
-    .w3-modal(id="id01")
+                                            td= b= moment(e.data).format('HH:mm')

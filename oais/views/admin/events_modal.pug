@@ -1,0 +1,35 @@
+
+header.w3-block.w3-container(style="box-shadow: 0px 3px 4px -3px black")
+    h1.w3-left.w3-margin Novo Evento
+    span.w3-button.buttonCloseModal(onclick="document.getElementById('eventsModal').style.display='none'")
+        i.fas.fa-times
+form.w3-container(id="formEvent" style="width: 100%")
+    table.w3-container.w3-section(style="width: 100%")
+        tr 
+            td
+                .myInputContainer
+                    label.myInputLabelDark 
+                        b Nome
+                input.w3-input.myInputTextDark(type='text', name='nome', style='width:100%')
+        tr    
+            td
+                br
+                .myInputContainer
+                    label.myInputLabelDark 
+                        b Descrição
+                input.w3-input.myInputTextDark(type='text', name='descricao', style='width:100%')
+        tr    
+            td
+                br
+                .myInputContainer
+                    label.myInputLabelDark 
+                        b Local
+                input.w3-input.myInputTextDark(type='text', name='local', style='width:100%')
+        tr
+            td
+                br
+                .myInputContainer
+                    label.myInputLabelDark 
+                        b Horário
+                input.w3-input.myInputTextDark(type='datetime-local', name='data', style='width:100%', value)
+    input.w3-button.myFancyButton.w3-margin.w3-right(type='submit', value='Criar Evento', id="buttonRegisterEvent")

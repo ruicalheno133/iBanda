@@ -10,10 +10,12 @@ var uuid = require('uuid/v4')
 var session = require('express-session')
 var FileStore = require('session-file-store')(session)
 var flash = require('express-flash-messages')
+var bodyParser = require('body-parser')
 
 var indexRouter = require('./routes/index');
 var adminUsersRouter = require('./routes/admin/users');
 var adminEventsRouter = require('./routes/admin/events');
+var adminObrasRouter = require('./routes/admin/obras')
 var usersAPIRouter = require('./routes/api/users')
 var eventsAPIRouter = require('./routes/api/events')
 var obrasAPIRouter = require('./routes/api/obras')
@@ -30,9 +32,9 @@ var produtorPerfilRouter = require('./routes/produtor/perfil')
 
 require('./authentication/auth')
 
+
 var app = express();
 
-app.use(flash())
 
 // Middleware da Sessão
 app.use(session({
@@ -55,7 +57,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/ibanda', {useNewUrlParser: true})
 app.use(passport.initialize())
 app.use(passport.session())
 
-
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -67,15 +71,17 @@ app.locals.moment = require('moment');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser('ibanda'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/admin/users', passport.authenticate('jwt-admin', {session: false}), adminUsersRouter);
 app.use('/admin/events',passport.authenticate('jwt-admin', {session: false}), adminEventsRouter);
-app.use('/api/users',usersAPIRouter);
-app.use('/api/events', eventsAPIRouter);
-app.use('/api/obras',obrasAPIRouter);
+app.use('/admin/obras',passport.authenticate('jwt-admin', {session: false}), adminObrasRouter);
+app.use('/api/users',passport.authenticate('jwt-api-all', {session: false}),usersAPIRouter);
+app.use('/api/events',passport.authenticate('jwt-api-all', {session: false}), eventsAPIRouter);
+app.use('/api/obras', passport.authenticate('jwt-api-all', {session: false}),obrasAPIRouter);
 
 app.use('/musico/events',passport.authenticate('jwt-musico', {session: false}), musicoEventsRouter);
 app.use('/musico/obras', passport.authenticate('jwt-musico', {session: false}), musicoObrasRouter);

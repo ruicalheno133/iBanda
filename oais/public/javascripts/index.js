@@ -36,31 +36,6 @@ $(()=>{
 
 
 
-    $profile_pic = $('#profile-pic').croppie({
-        enableExif: true,
-        viewport: {
-            width: 200,
-            height: 200,
-            type: 'circle'
-        },
-        boundary: {
-            width: 300,
-            height: 300
-        }
-    });
-
-    $('#upload-img').on('change', function (){
-        console.log('hello')
-        var reader = new FileReader();
-        reader.onload = function (event) {
-            console.log('event.target.result')
-            $profile_pic.croppie('bind', {
-                url: event.target.result
-            })
-        }
-        reader.readAsDataURL(this.files[0])
-    })
-
     /* Validador de Campos */
 
     function validateFields () {

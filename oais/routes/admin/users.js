@@ -1,6 +1,12 @@
 var express = require('express');
+var formidable = require('formidable')
+var formData = require('form-data')
 var axios = require('axios')
 var router = express.Router();
+
+function getTokenFromRequest (req) {
+    return '?api-key=' + req.session.token
+  }
 
 /* GET página de registo de utlizador */
 router.get('/register', function(req, res) {
@@ -9,7 +15,7 @@ router.get('/register', function(req, res) {
 
 /* GET lista de utiliadores */
 router.get('/', function(req, res) {
-    axios.get('http://localhost:6001/api/users' )
+    axios.get('http://localhost:6001/api/users' + getTokenFromRequest(req))
          .then(users => {
              res.render('admin/users', {users : users.data})
          })
@@ -20,7 +26,7 @@ router.get('/', function(req, res) {
 
 /* GET um utilizador */
 router.get('/:id', function(req, res) {
-    axios.get('http://localhost:6001/api/users/' + req.params.id)
+    axios.get('http://localhost:6001/api/users/' + req.params.id + getTokenFromRequest(req))
     .then(user => {
         res.render('admin/user', {user : user.data})
     })

@@ -40,9 +40,16 @@ block content
                                     tr
                                         th Editado
                                         td= obras.editado
+                                tr
+                                    th Inserida por
+                                    td
+                                        if obras.criador
+                                            | #{obras.criador}
+                                        else 
+                                            | N/A
                     td(style="vertical-align: middle;")
                         .w3-center
-                            a(href="/obras/" + obras._id + "/Archive3.zip" ).w3-button.myFancyButton 
+                            a(href="/obras/" + obras._id + "/" + obras._id + ".zip" ).w3-button.myFancyButton 
                                 i.fas.fa-download
                                 |  Descarregue a obra
                             br
@@ -84,7 +91,7 @@ block content
                                             | N/A
                                     td
                                         if c.partitura.path
-                                            a(href='/obras/' + obras._id + '/' + c.partitura.path ).w3-right
+                                            a(target='_blank' href='/obras/' + obras._id + '/' + c.partitura.path ).w3-right
                                                 i.fas.fa-file-download
                                         else 
                                             | N/A

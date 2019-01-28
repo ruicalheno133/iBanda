@@ -15,16 +15,47 @@ $(() => {
     })
 
     /* Para atualizar a foto de perfil de utilizador */
-     $('#buttonUpdateProfilePic').click(e =>{
+     $('#buttonUpdateProfilePicProd').click(e =>{
             e.preventDefault()
-            ajaxPutProfilePic()
+            ajaxPutProfilePic('produtor')
         })
+
+    /* Para atualizar a foto de perfil de utilizador */
+    $('#buttonUpdateProfilePicMus').click(e =>{
+            e.preventDefault()
+            ajaxPutProfilePic('musico')
+        })
+
+    /* Para remover um evento */
+    $('.buttonRemoveObra').click(function(e){
+        e.preventDefault()
+        ajaxDeleteObra($(this))
+    })
+
+    /* 
+        AJAX DELETE OBRA
+        Pedido DELETE para remover uma obra
+        Elemento precisa do atributo href
+    */
+    function ajaxDeleteObra(element) {
+        var url = element.attr('href')
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: () =>{
+                element.closest('tr').remove()
+            },
+            error: err => {
+                alert(JSON.stringify(err))
+            }
+        })
+    }
 
     /* 
         AJAX PUT PROFILE PIC
         Pedido PUT para atualizar a foto de perfil de um utilizador
     */
-   function ajaxPutProfilePic() {
+   function ajaxPutProfilePic(tipo) {
     var formData = new FormData($('#formUpdateProfilePic')[0])
     $.ajax({
         type: "PUT",
@@ -32,9 +63,11 @@ $(() => {
         data: formData,
         processData: false,
         contentType: false,
-        success: result => {        
-            $('#formUpdateProfilePic p').remove()
-            $('#formUpdateProfilePic').append('<p style="color: green;">Foto de perfil atualizada.</p>')
+        success: result => {
+            if (tipo == 'produtor')
+                window.location.href = '/produtor/perfil'
+            else 
+                window.location.href = '/musico/perfil'
         },
         error: error => {
             $('#formUpdateProfilePic p').remove()
@@ -49,6 +82,7 @@ $(() => {
     */
    function ajaxPutUser() {
     var formData = new FormData($('#formUpdateUser')[0])
+
     $.ajax({
         type: "PUT",
         url: '/api/users/' + $('#formUpdateUser').attr('user'),
@@ -142,4 +176,12 @@ $(() => {
         }
         reader.readAsDataURL(this.files[0])
     })
+
+    /* Obra search bar */
+    $("#searchObras").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#obrasTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
 })

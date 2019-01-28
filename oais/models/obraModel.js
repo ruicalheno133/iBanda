@@ -1,4 +1,5 @@
 var mongoose = require('mongoose')
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 /* Instrumento Schema */
 var PartituraSchema = new mongoose.Schema(
@@ -24,6 +25,8 @@ var ObraSchema = new mongoose.Schema(
         titulo          : {type: String, required: true},
         tipo            : {type: String},
         compositor      : {type: String},
+        criador         : {type: String},
+        criador_id      : {type: ObjectId},
         instrumentos    : {type: [InstrumentoSchema]}
     }
 )

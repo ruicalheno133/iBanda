@@ -2,9 +2,13 @@ var express = require('express');
 var axios = require('axios')
 var router = express.Router();
 
-/* GET lista de eventos*/
+function getTokenFromRequest (req) {
+    return '?api-key=' + req.session.token
+}
+
+/* GET lista de eventos */
 router.get('/', function(req, res) {
-    axios.get('http://localhost:6001/api/events')
+    axios.get('http://localhost:6001/api/events' + getTokenFromRequest(req))
          .then(events => {
              res.render('musico/events', {eventos: events.data})
          })

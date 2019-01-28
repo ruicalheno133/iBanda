@@ -1,9 +1,11 @@
 var express = require('express');
 var formidable = require('formidable')
 var bcrypt = require('bcrypt')
+var jwt = require('jsonwebtoken')
 var fs = require('fs')
 var UserController = require('../../controllers/userController')
 var router = express.Router();
+
 
 /**
  * @api {get} /api/users Obtem lista de utilizadores
@@ -37,6 +39,7 @@ var router = express.Router();
  * 
  */
 router.get('/', function(req, res) {
+  console.log(req.config)
   UserController.listAll()
                 .then(dados => {
                   res.jsonp(dados)
@@ -138,9 +141,11 @@ router.post('/', (req, res, next) => {
 router.put('/:id', function(req, res) {
     /* Gets form data from request body */
     var form = new formidable.IncomingForm();
-console.log(req.user)
+    console.log(req.body)
+    console.log(form)
     /* Parses the form */
     form.parse(req, async (err, fields, files)=>{
+      console.log(err)
       if (fields.password == '' || fields.password == undefined) {
         delete fields.password
       } else {
@@ -150,12 +155,10 @@ console.log(req.user)
         UserController.updateUser(req.params.id, fields)
                       .then(result => {
                         if (result) {
-                          console.log(req.user)
-                          if(fields.password)
-                            req.user = fields 
-                          else 
-                            req.user = fields, {...req.user.password};
-                          console.log(req.user)
+                          if (req.user.tipo != 'Admin') {
+                            var newUser = {user: {...req.user, ...fields}}
+                            req.session.token = jwt.sign(newUser, 'pri2018')
+                          }
                           res.jsonp("Utilizador atualizado com sucesso.")
                       }
                         else 
@@ -213,10 +216,12 @@ router.put('/profile-pic/:id', function(req, res) {
         if (!err) {
           UserController.updateProfilePic(req.params.id, fpath)
           .then(result => {
-            if (result)
-              res.jsonp("Obra atualizada com sucesso.")
-            else 
-              res.status(500).jsonp("Obra não existe")
+            if (result) {
+              var newUser = {user: {...req.user, ...{profile_pic: fpath}}}
+              req.session.token = jwt.sign(newUser, 'pri2018')
+              res.jsonp("Foto de Perfil atualizada com sucesso.")
+            } else 
+              res.status(500).jsonp("Utilizador não existe")
           })
           .catch(erro => {
             res.status(500).jsonp(erro)
