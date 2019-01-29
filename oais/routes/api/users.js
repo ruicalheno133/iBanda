@@ -198,9 +198,6 @@ router.delete('/:id', function(req, res) {
                 })
 });
 
-module.exports = router;
-
-
 router.put('/profile-pic/:id', function(req, res) {
   /* Gets form data from request body */
   var form = new formidable.IncomingForm();
@@ -236,3 +233,5 @@ router.put('/profile-pic/:id', function(req, res) {
     }
   })
 });
+
+module.exports = router;

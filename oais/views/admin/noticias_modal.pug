@@ -1,0 +1,28 @@
+
+header.w3-block.w3-container(style="box-shadow: 0px 3px 4px -3px black")
+    h1.w3-left.w3-margin Nova Notícia
+    span.w3-button.buttonCloseModal(onclick="document.getElementById('noticiasModal').style.display='none'")
+        i.fas.fa-times
+form.w3-container(id="formNoticia" style="width: 100%")
+    table.w3-container.w3-section(style="width: 100%")
+        tr 
+            td
+                .myInputContainer
+                    label.myInputLabelDark 
+                        b Título
+                input.w3-input.myInputTextDark(type='text', name='titulo', style='width:100%')
+        tr    
+            td
+                br
+                .myInputContainer
+                    label.myInputLabelDark 
+                        b Texto
+                input.w3-input.myInputTextDark(type='text', name='texto', style='width:100%')
+        tr
+            td
+                br
+                .myInputContainer
+                    label.myInputLabelDark 
+                        b Data
+                input.w3-input.myInputTextDark(type='date', name='data', style='width:100%', value)
+    input.w3-button.myFancyButton.w3-margin.w3-right(type='submit', value='Criar Notícia', id="buttonRegisterNoticia")

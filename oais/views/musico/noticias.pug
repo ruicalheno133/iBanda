@@ -1,0 +1,20 @@
+extends musico_layout
+
+block content
+    header.w3-container(style="box-shadow: 0px 1px 6px grey")
+        h1 Notícias 
+    div(style="height: 78%; overflow: auto;")
+        .w3-container
+            table(id="noticiasTable").w3-table.w3-table-all
+                each n in noticias 
+                    tr
+                        td
+                            .w3-bar
+                                .w3-bar-item
+                                    h3= n.titulo
+                                    br     
+                                    p= n.texto
+                            td.w3-display-container
+                                .w3-display-topright
+                                       p= moment(n.data).format('DD/MM/YYYY')
+                br

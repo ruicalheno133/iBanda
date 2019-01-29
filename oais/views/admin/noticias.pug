@@ -1,0 +1,27 @@
+extends admin_layout
+
+block content
+    header.w3-container(style="box-shadow: 0px 1px 6px grey")
+        h1 Notícias
+        .w3-modal(id="noticiasModal")
+            .w3-modal-content.w3-theme-4(style="width: 40%").w3-border
+                include noticias_modal 
+    div(style="height: 78%; overflow: auto;")
+        .w3-container
+            table(id="noticiasTable").w3-table.w3-table-all
+                each n in noticias 
+                    tr
+                        td
+                            .w3-bar
+                                .w3-bar-item
+                                    h3= n.titulo
+                                    br     
+                                    p= n.texto
+                            td.w3-display-container
+                                .w3-display-topright
+                                       p= moment(n.data).format('DD/MM/YYYY')      
+                            td.w3-display-container
+                                .w3-display-topmiddle
+                                    a(href="/api/noticias/" + n._id).w3-button.buttonRemoveNoticia
+                                        i.fas.fa-times
+                br

@@ -34,6 +34,11 @@ $(()=>{
         ajaxDeleteEvent($(this))
     })
 
+    /* Para remover uma noticia */
+    $('.buttonRemoveNoticia').click(function(e){
+        e.preventDefault()
+        ajaxDeleteNoticia($(this))
+    })
 
 
     /* Validador de Campos */
@@ -72,6 +77,22 @@ $(()=>{
     }
 
     function ajaxDeleteEvent(element) {
+        var url = element.attr('href')
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: () =>{
+                element.closest('.w3-col').remove()
+            }
+        })
+    }
+
+    /* 
+        AJAX DELETE NOTICIA
+        Pedido DELETE para remover noticia
+        Elemento precisa do atributo href
+    */
+   function ajaxDeleteNoticia(element) {
         var url = element.attr('href')
         $.ajax({
             url: url,

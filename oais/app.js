@@ -16,14 +16,20 @@ var indexRouter = require('./routes/index');
 var adminUsersRouter = require('./routes/admin/users');
 var adminEventsRouter = require('./routes/admin/events');
 var adminObrasRouter = require('./routes/admin/obras')
+var adminNoticiasRouter = require('./routes/admin/noticias')
+
 var usersAPIRouter = require('./routes/api/users')
 var eventsAPIRouter = require('./routes/api/events')
 var obrasAPIRouter = require('./routes/api/obras')
-var UserController = require('./controllers/userController')
+var noticiasAPIRouter = require('./routes/api/noticias')
+
+
 
 var musicoEventsRouter = require('./routes/musico/events');
 var musicoObrasRouter = require('./routes/musico/obras');
 var musicoPerfilRouter = require('./routes/musico/perfil');
+var musicoNoticiasRouter = require('./routes/musico/noticias');
+
 
 var usersAPIRouter = require('./routes/api/users');
 var produtorEventsRouter = require('./routes/produtor/events')
@@ -79,17 +85,23 @@ app.use('/', indexRouter);
 app.use('/admin/users', passport.authenticate('jwt-admin', {session: false}), adminUsersRouter);
 app.use('/admin/events',passport.authenticate('jwt-admin', {session: false}), adminEventsRouter);
 app.use('/admin/obras',passport.authenticate('jwt-admin', {session: false}), adminObrasRouter);
+app.use('/admin/noticias',passport.authenticate('jwt-admin', {session: false}), adminNoticiasRouter);
+
 app.use('/api/users',passport.authenticate('jwt-api-all', {session: false}),usersAPIRouter);
 app.use('/api/events',passport.authenticate('jwt-api-all', {session: false}), eventsAPIRouter);
 app.use('/api/obras', passport.authenticate('jwt-api-all', {session: false}),obrasAPIRouter);
+app.use('/api/noticias', passport.authenticate('jwt-api-all', {session: false}),noticiasAPIRouter);
 
 app.use('/musico/events',passport.authenticate('jwt-musico', {session: false}), musicoEventsRouter);
 app.use('/musico/obras', passport.authenticate('jwt-musico', {session: false}), musicoObrasRouter);
 app.use('/musico/perfil', passport.authenticate('jwt-musico', {session:false}), musicoPerfilRouter);
+app.use('/musico/noticias', passport.authenticate('jwt-musico', {session:false}), musicoNoticiasRouter);
+
 
 app.use('/produtor/events', passport.authenticate('jwt-produtor', {session: false}), produtorEventsRouter);
 app.use('/produtor/obras',passport.authenticate('jwt-produtor', {session: false}), produtorObrasRouter);
 app.use('/produtor/perfil',passport.authenticate('jwt-produtor', {session: false}), produtorPerfilRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

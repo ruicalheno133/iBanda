@@ -26,6 +26,18 @@ $(()=>{
         ajaxDeleteEvent($(this))
     })
 
+     /* Para registar uma noticia */
+     $('#buttonRegisterNoticia').click(e =>{
+        e.preventDefault()
+        ajaxPostNoticia()
+    })
+
+    /* Para remover uma noticia */
+    $('.buttonRemoveNoticia').click(function(e){
+        e.preventDefault()
+        ajaxDeleteNoticia($(this))
+    })
+
     /* 
         AJAX DELETE USER
         Pedido DELETE para remover utilizador
@@ -48,6 +60,21 @@ $(()=>{
         Elemento precisa do atributo href
     */
     function ajaxDeleteEvent(element) {
+        var url = element.attr('href')
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: () =>{
+                element.closest('.w3-col').remove()
+            }
+        })
+    }
+    /* 
+        AJAX DELETE NOTICIA
+        Pedido DELETE para remover noticia
+        Elemento precisa do atributo href
+    */
+   function ajaxDeleteNoticia(element) {
         var url = element.attr('href')
         $.ajax({
             url: url,
@@ -102,6 +129,29 @@ $(()=>{
                 $('#formEvent').append('<p style="color: red;">Erro na criação do evento.</p>')
             }
           });
+    }
+
+    /* 
+        AJAX POST EVENT
+        Pedido POST para adicionar um evento
+    */
+   function ajaxPostEvent () {
+        var formData = new FormData($('#formEvent')[0])
+
+        $.ajax({
+            type: "POST",
+            url: '/api/noticias',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: result => {       
+                window.location.replace('/admin/noticias')
+            },
+            error: error => {
+                $('#formNoticia p').remove()
+                $('#formNoticia').append('<p style="color: red;">Erro na criação do evento.</p>')
+        }
+      });
     }
 
     jQuery.validator.addMethod("Num", function(value, element) {
