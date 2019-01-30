@@ -8,7 +8,7 @@ var UserController = require('../../controllers/userController')
 var router = express.Router();
 
 router.get('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
-router.put('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
+router.put('/*', passport.authenticate('jwt-all', {session: false}), (req, res, next) => {next()})
 router.post('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
 router.delete('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
 
@@ -95,6 +95,14 @@ router.get('/:id', function(req, res) {
  * @apiName AddUser
  * @apiGroup Users
  * 
+ * @apiParam {String} nome Nome do utilizador
+ * @apiParam {String} sexo Sexo do utilizador 
+ * @apiParam {String} tipo Tipo de utilizador (Músico ou Produtor)
+ * @apiParam {String} email Email do utilizador 
+ * @apiParam {String} password Password do utilizador 
+ * 
+ * @apiError (500) UtilizadorJaExiste Email do utilizador já existe.
+ * 
  */
 
 router.post('/', function(req, res) {
@@ -124,23 +132,18 @@ router.post('/', function(req, res) {
   })
 }); 
 
-/*
-router.post('/', (req, res, next) => {
-  passport.authenticate('registo', (err, user, info) => {
-    if (!err) res.end()
-    else {
-      res.status(500).end()
-    }
-  })(req,res,next)
-})  */
-
 /**
  * @api {put} /api/users/:id Atualiza um utilizador
  * @apiName UpdateUser
  * @apiGroup Users
  * 
- * @apiParam {String} id ID do utilizador
+ * @apiParam {String} [nome] Nome do utilizador
+ * @apiParam {String} [sexo] Sexo do utilizador 
+ * @apiParam {String} [tipo] Tipo de utilizador (Músico ou Produtor)
+ * @apiParam {String} [email] Email do utilizador 
+ * @apiParam {String} [password] Password do utilizador 
  * 
+ * @apiError (500) UtilizadorNaoExiste Id do utilizador não encontrado.
  * 
  */
 router.put('/:id', function(req, res) {
@@ -185,15 +188,12 @@ router.put('/:id', function(req, res) {
  * @apiName DeleteUser
  * @apiGroup Users
  * 
- * @apiParam {String} id ID do utilizador
- * 
- * 
  */
 router.delete('/:id', function(req, res) {
   UserController.removeUser(req.params.id)
                 .then(result => {
                   if (result)
-                    res.jsonp("Utilzador removido com sucesso."  + result)
+                    res.jsonp("Utilzador removido com sucesso.")
                   else 
                     res.status(500).jsonp("Utilizador não existe.")
                 })
@@ -202,6 +202,17 @@ router.delete('/:id', function(req, res) {
                 })
 });
 
+
+/**
+ * @api {put} /api/users/:id Atualiza a foto de perfil de um utilizador
+ * @apiName UpdateUserProfilePic
+ * @apiGroup Users
+ * 
+ * @apiParam {File} ficheiro Fotografia de perfil
+ * 
+ * @apiError UtilizadorNaoExiste Id do utilizador não encontrado.
+ * 
+ */
 router.put('/profile-pic/:id', function(req, res) {
   /* Gets form data from request body */
   var form = new formidable.IncomingForm();

@@ -13,8 +13,23 @@ router.delete('/*', passport.authenticate('jwt-admin', {session: false}), (req, 
  * @apiName GetNoticias
  * @apiGroup Noticias
  * 
- * @apiSuccess {Object[]} eventos Lista de Noticias(é a resposta)
- * @apiSuccess {String} noticias.titulo Titulo da Noticia
+ * @apiSuccess {Object[]} eventos Lista de noticias(é a resposta)
+ * @apiSuccess {String} noticias.titulo Titulo da noticia
+ * @apiSuccess {String} noticias.texto Corpo da notícia
+ * @apiSuccess {String} noticias.fonte Website fonte da notícia
+ * @apiSuccess {String} noticias.data Data de criação da notícia
+ * @apiSuccess {Boolean} noticias.visibilidade Indica se a notícia está visível
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * [ 
+ *  {
+ *    "titulo"       : "Nova guitarra",
+ *    "texto"        : "Guitarra da Fender disponível.",
+ *    "fonte"        : "www.umsite.com",
+ *    "data"         : 20/10/2019T15:00Z,
+ *    "visibilidade" : true
+ *  }
+ * ]
  * 
  */
 router.get('/', function(req, res) {
@@ -28,10 +43,44 @@ router.get('/', function(req, res) {
 });
 
 /**
+  * @api {get} /api/noticias/:id Obtem uma determinada notícia
+  * @apiName GetNoticia
+  * @apiGroup Noticias
+  * 
+  * @apiSuccess {String} titulo Titulo da noticia
+  * @apiSuccess {String} texto Corpo da notícia
+  * @apiSuccess {String} fonte Website fonte da notícia
+  * @apiSuccess {String} data Data de criação da notícia
+  * @apiSuccess {Boolean} visibilidade Indica se a notícia está visível
+  * 
+  * @apiSuccessExample {json} Success-Response:
+  *  {
+  *    "titulo"       : "Nova guitarra",
+  *    "texto"        : "Guitarra da Fender disponível.",
+  *    "fonte"        : "www.umsite.com",
+  *    "data"         : 20/10/2019T15:00Z,
+  *    "visibilidade" : true
+  *  }
+  */
+ router.get('/:id', function(req, res) {
+  NoticiasController.getNoticiaById(req.params.id)
+                .then(dados => {
+                  res.jsonp(dados)
+                })
+                .catch(err => {
+                  res.status(500).jsonp(err)
+                })
+});
+
+/**
  * @api {post} /api/noticias Adiciona uma noticia
  * @apiName AddNoticia
  * @apiGroup Noticias
  * 
+ * @apiParam {String} titulo Titulo da noticia
+ * @apiParam {String} [texto] Corpo da notícia
+ * @apiParam {String} [fonte] Website fonte da notícia
+ *
  */
 router.post('/', function(req, res) {
   /* Gets form data from request body */
@@ -55,8 +104,8 @@ router.post('/', function(req, res) {
 });
 
 /**
- * @api {post} /api/noticias Adiciona uma noticia
- * @apiName AddNoticia
+ * @api {post} /api/noticias/:id/visivel Torna notícia vísivel
+ * @apiName MakeNoticiaVisible
  * @apiGroup Noticias
  * 
  */
@@ -71,8 +120,42 @@ router.post('/:id/visivel', function(req, res) {
 });
 
 /**
- * @api {post} /api/noticias Adiciona uma noticia
- * @apiName AddNoticia
+ * @api {put} /api/noticias/:id Atualiza uma noticia
+ * @apiName UpdateNoticia
+ * @apiGroup Noticias
+ * 
+ * @apiParam {String} titulo Titulo da noticia
+ * @apiParam {String} [texto] Corpo da notícia
+ * @apiParam {String} [fonte] Website fonte da notícia
+ * 
+ * @apiError (500) NoticiaNaoExiste Id da noticia não encontrado.
+ */
+router.put('/:id', function(req, res) {
+  /* Gets form data from request body */
+  var form = new formidable.IncomingForm();
+
+  /* Parses the form */
+  form.parse(req, (err, fields, files)=>{
+    if (!err){
+      NoticiasController.updateNoticia(req.params.id, fields)
+                      .then(result => {
+                        if(result)
+                          res.jsonp("Notícia atualizada com sucesso.")
+                        else 
+                          res.status(500).jsonp("Notícia não existe.")
+                      })
+                      .catch(err => {
+                        res.status(500).jsonp(err)
+                      })
+    } else {
+      res.status(500).jsonp(err)
+    }
+  })
+});
+
+/**
+ * @api {post} /api/noticias/:id/invisivel Torna notícia não vísivel
+ * @apiName MakeNoticiaNotVisible
  * @apiGroup Noticias
  * 
  */
@@ -91,8 +174,7 @@ router.post('/:id/invisivel', function(req, res) {
  * @apiName DeleteNoticia
  * @apiGroup Noticias
  * 
- * @apiParam {String} id ID da noticia
- * 
+ * @apiError (500) noticiaNaoExiste Id da notícia não encontrado
  * 
  */
 router.delete('/:id', function(req, res) {

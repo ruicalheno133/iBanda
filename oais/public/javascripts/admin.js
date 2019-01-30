@@ -87,9 +87,9 @@ $(()=>{
         Elemento precisa do atributo href
     */
    function ajaxDeleteNoticia(element) {
-        var url = element.attr('href')
+        var id = element.attr('href')
         $.ajax({
-            url: url,
+            url: '/api/noticias/' + id,
             type: 'DELETE',
             success: () =>{
                 element.closest('tr').remove()

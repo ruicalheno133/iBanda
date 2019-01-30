@@ -5,7 +5,7 @@ var EventSchema = new mongoose.Schema(
     {
         nome        : {type: String, required: true},
         descricao   : {type: String},
-        local       : {type: String},
+        local       : {type: String, required: true},
         data        : {type: Date, required: true}
     }
 )

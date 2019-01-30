@@ -18,7 +18,44 @@ router.delete('/*', passport.authenticate('jwt-prod-admin', {session: false}), (
  * @apiGroup Obras
  * 
  * @apiSuccess {Object[]} Obras Lista de Obras (é a resposta)
- * @apiSuccess {String} Obras.nome Nome da Obra
+ * @apiSuccess {String} Obras.titulo Titulo da Obra
+ * @apiSuccess {String} Obras.compositor Compositor da Obra
+ * @apiSuccess {String} Obras.tipo Tipo da Obra
+ * @apiSuccess {String} Obras.criador Nome dorodutor que adicionou a Obra
+ * @apiSuccess {String} Obras.criador_id Ud dorodutor que adicionou a Obra
+ * @apiSuccess {Object[]} Obras.instrumento Lista de instrumentos da Obra
+ * @apiSuccess {String} Obras.instrumentos.nome Nome do instrumento
+ * @apiSuccess {Object} Obras.instrumentos.partitura Partitura do instrumento
+ * @apiSuccess {String} Obras.instrumentos.partitura.path Path para a partitura
+ * @apiSuccess {String} Obras.instrumentos.partitura.clave Clave do instrumento
+ * @apiSuccess {String} Obras.instrumentos.partitura.voz Voz do instrumento
+ * @apiSuccess {String} Obras.instrumentos.partitura.afinacao Afinacao do instrumento
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * [ 
+        {
+        "_id": "m2",
+        "titulo": "Armindo Alves",
+        "tipo": "Marcha de Desfile",
+        "compositor": "Ilídio Costa",
+        "criador": "produtor1",
+        "criador_id": "5c50b97eff18b5fb4fc0d65c",
+        "instrumentos": [
+            {
+              "nome": "Sax Barítono",
+              "partitura": {
+                  "path": "ArmindoAlves-saxB.tif"
+              }
+            },
+            {
+              "nome": "Sax Soprano",
+              "partitura": {
+              "path": "ArmindoAlves-saxS.tif"
+            }
+          }
+        ]
+      }
+ * ]
  * 
  */
 router.get('/', function(req, res) {
@@ -35,10 +72,43 @@ router.get('/', function(req, res) {
  * @api {get} /api/obras/:id Obtem uma determinada obra
  * @apiName GetObra
  * @apiGroup Obras
+ * @apiSuccess {Object[]} Obras Lista de Obras (é a resposta)
+ * @apiSuccess {String} titulo Titulo da Obra
+ * @apiSuccess {String} compositor Compositor da Obra
+ * @apiSuccess {String} tipo Tipo da Obra
+ * @apiSuccess {String} criador Nome dorodutor que adicionou a Obra
+ * @apiSuccess {String} criador_id Ud dorodutor que adicionou a Obra
+ * @apiSuccess {Object[]} instrumento Lista de instrumentos da Obra
+ * @apiSuccess {String} instrumentos.nome Nome do instrumento
+ * @apiSuccess {Object} instrumentos.partitura Partitura do instrumento
+ * @apiSuccess {String} instrumentos.partitura.path Path para a partitura
+ * @apiSuccess {String} instrumentos.partitura.clave Clave do instrumento
+ * @apiSuccess {String} instrumentos.partitura.voz Voz do instrumento
+ * @apiSuccess {String} instrumentos.partitura.afinacao Afinacao do instrumento
  * 
- * @apiParam {String} id ID da obra
- * 
- * @apiSuccess {String} nome Nome da obra
+ * @apiSuccessExample {json} Success-Response:
+        {
+        "_id": "m2",
+        "titulo": "Armindo Alves",
+        "tipo": "Marcha de Desfile",
+        "compositor": "Ilídio Costa",
+        "criador": "produtor1",
+        "criador_id": "5c50b97eff18b5fb4fc0d65c",
+        "instrumentos": [
+            {
+              "nome": "Sax Barítono",
+              "partitura": {
+                  "path": "ArmindoAlves-saxB.tif"
+              }
+            },
+            {
+              "nome": "Sax Soprano",
+              "partitura": {
+              "path": "ArmindoAlves-saxS.tif"
+            }
+          }
+        ]
+      }
  * 
  */
 router.get('/:id', function(req, res) {
@@ -58,6 +128,12 @@ router.get('/:id', function(req, res) {
  * @api {post} /api/obras Adiciona uma obra
  * @apiName AddObra
  * @apiGroup Obras
+ * 
+ * @apiParam {File} ficheiro Ficheiro ZIP composto pelo manifesto e partituras
+ * 
+ * @apiError manifestoNaoExiste ZIP nao contem manifesto 
+ * @apiError partituraNaoExiste Partitura referenciada no manifesto nao existe
+ * @apiError obraJaExiste Id da obra a inserir ja existe
  * 
  */
 router.post('/', function(req, res) {
@@ -136,7 +212,11 @@ function extraiZIP (zip, obraID, zipEnviado, callback) {
  * @apiName UpdateObra
  * @apiGroup Obras
  * 
- * @apiParam {String} id ID da obra
+ * @apiParam {File} ficheiro Ficheiro ZIP composto pelos novos manifesto e partituras
+ * 
+ * @apiError manifestoNaoExiste ZIP nao contem manifesto 
+ * @apiError partituraNaoExiste Partitura referenciada no manifesto nao existe
+ * @apiError obraJaExiste Id da obra a inserir ja existe
  * 
  * 
  */
@@ -189,8 +269,7 @@ router.put('/:id', function(req, res) {
  * @apiName DeleteObra
  * @apiGroup Obras
  * 
- * @apiParam {String} id ID da obra
- * 
+ * @apiError (500) obraNaoExiste Id da obra nao encontrado
  * 
  */
 router.delete('/:id', function(req, res) {

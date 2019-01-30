@@ -6,7 +6,8 @@ var PartituraSchema = new mongoose.Schema(
     {
         path          : {type: String, required: true},
         voz           : {type: String},
-        clave         : {type: String}
+        clave         : {type: String},
+        afinacao      : {type: String}
     }
 )
 

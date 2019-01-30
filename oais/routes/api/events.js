@@ -15,6 +15,19 @@ router.delete('/*', passport.authenticate('jwt-admin', {session: false}), (req, 
  * 
  * @apiSuccess {Object[]} eventos Lista de eventos (é a resposta)
  * @apiSuccess {String} eventos.nome Nome do evento
+ * @apiSuccess {String} eventos.descricao Descrição do evento
+ * @apiSuccess {String} eventos.local Local do evento
+ * @apiSuccess {Date} eventos.data Data do evento
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ * [ 
+ *  {
+ *    "nome"    : "Concerto de Natal",
+ *    "descricao"    : "Na véspera de natal, concerto solidário.",
+ *    "local"    : "Hospital de Braga",
+ *    "data"   : 24/12/2019T15:00Z
+ *  }
+ * ]
  * 
  */
 router.get('/', function(req, res) {
@@ -32,9 +45,18 @@ router.get('/', function(req, res) {
  * @apiName GetEvento
  * @apiGroup Eventos
  * 
- * @apiParam {String} id ID do evento
- * 
  * @apiSuccess {String} nome Nome do evento
+ * @apiSuccess {String} descricao Descrição do evento
+ * @apiSuccess {String} local Local do evento
+ * @apiSuccess {Date} data Data do evento
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *    "nome"    : "Concerto de Natal",
+ *    "descricao"    : "Na véspera de natal, concerto solidário.",
+ *    "local"    : "Hospital de Braga",
+ *    "data"   : 24/12/2019T15:00Z
+ *  }
  * 
  */
 router.get('/:id', function(req, res) {
@@ -54,6 +76,11 @@ router.get('/:id', function(req, res) {
  * @api {post} /api/events Adiciona um evento
  * @apiName AddEvento
  * @apiGroup Eventos
+ * 
+ * @apiParam {String} nome Nome do evento
+ * @apiParam {String} [descricao] Descrição do evento
+ * @apiParam {String} local Local do evento
+ * @apiParam {Date} data Data do evento
  * 
  */
 router.post('/', function(req, res) {
@@ -81,9 +108,12 @@ router.post('/', function(req, res) {
  * @apiName UpdateEvento
  * @apiGroup Eventos
  * 
- * @apiParam {String} id ID do evento
+ * @apiParam {String} nome Nome do evento
+ * @apiParam {String} [descricao] Descrição do evento
+ * @apiParam {String} local Local do evento
+ * @apiParam {Date} data Data do evento
  * 
- * 
+ * @apiError (500) EventoNaoExiste Id do evento não encontrado.
  */
 router.put('/:id', function(req, res) {
   /* Gets form data from request body */
@@ -113,8 +143,8 @@ router.put('/:id', function(req, res) {
  * @apiName DeleteEvento
  * @apiGroup Eventos
  * 
- * @apiParam {String} id ID do evento
  * 
+ * @apiError (500) EventoNaoExiste Id do evento não encontrado.
  * 
  */
 router.delete('/:id', function(req, res) {
