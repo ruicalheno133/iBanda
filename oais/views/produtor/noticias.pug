@@ -1,9 +1,9 @@
-extends musico_layout
+extends produtor_layout
 
 block content
     header.w3-container(style="box-shadow: 0px 1px 6px grey")
         h1 Notícias
-    div.w3-section(style="height: 78%; overflow: auto;")
+    div.w3-section(style="height: 85%; overflow: auto;")
         .w3-container
             table(id="noticiasTable").w3-table.w3-table-all
                 each n in noticias.reverse()

@@ -2,32 +2,44 @@ var NoticiaModel = require('../models/noticiaModel')
 
 var NoticiaController = {}
 
-/* Lista todos os eventos */
+/* Lista todas as noticias */
 NoticiaController.listAll = () => {
     return NoticiaModel.find()
                        .exec()
 } 
 
-/* Lista um determinado evento */
+/* Lista uma determinada noticia */
 NoticiaController.getNoticiaById = (id) => {
     return NoticiaModel.findOne({_id: id})
                        .exec()
 } 
 
-/* Adiciona um novo evento */
-NoticiaController.addNoticia = (event) => {
-    return NoticiaModel.create(event)
+/* Adiciona uma nova noticia */
+NoticiaController.addNoticia = (noticia) => {
+    return NoticiaModel.create(noticia)
 } 
 
-/* Remove um evento */
+/* Torna notícia visível */
+NoticiaController.makeVisible = (noticia) => {
+    return NoticiaModel.findByIdAndUpdate(noticia, {visibilidade: true})
+                       .exec()
+} 
+
+/* Torna notícia não visível */
+NoticiaController.makeNotVisible = (noticia) => {
+    return NoticiaModel.findByIdAndUpdate(noticia, {visibilidade: false})
+                       .exec()
+} 
+
+/* Remove uma noticia */
 NoticiaController.removeNoticia = (id) => {
     return NoticiaModel.findByIdAndDelete(id)
                        .exec()
 }
 
-/* Atualiza um evento */
-NoticiaController.updateNoticia = (id, event) => {
-    return NoticiaModel.findByIdAndUpdate(id, event)
+/* Atualiza uma noticia */
+NoticiaController.updateNoticia = (id,noticia) => {
+    return NoticiaModel.findByIdAndUpdate(id,noticia)
                        .exec()
 }
 

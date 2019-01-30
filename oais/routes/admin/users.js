@@ -6,7 +6,7 @@ var router = express.Router();
 
 function getTokenFromRequest (req) {
     return '?api-key=' + req.session.token
-  }
+}
 
 /* GET página de registo de utlizador */
 router.get('/register', function(req, res) {

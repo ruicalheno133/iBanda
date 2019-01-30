@@ -3,9 +3,14 @@ var formidable = require('formidable')
 var bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken')
 var fs = require('fs')
+var passport = require('passport')
 var UserController = require('../../controllers/userController')
 var router = express.Router();
 
+router.get('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
+router.put('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
+router.post('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
+router.delete('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
 
 /**
  * @api {get} /api/users Obtem lista de utilizadores
@@ -145,7 +150,6 @@ router.put('/:id', function(req, res) {
     console.log(form)
     /* Parses the form */
     form.parse(req, async (err, fields, files)=>{
-      console.log(err)
       if (fields.password == '' || fields.password == undefined) {
         delete fields.password
       } else {

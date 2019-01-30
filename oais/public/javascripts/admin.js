@@ -38,6 +38,18 @@ $(()=>{
         ajaxDeleteNoticia($(this))
     })
 
+    /* Para remover uma noticia */
+    $(document).on('click', '.buttonVisible', function(e){
+        e.preventDefault()
+        ajaxChangeVisible($(this), 'visivel')
+    })
+
+    /* Para remover uma noticia */
+    $(document).on('click', '.buttonNotVisible', function(e) {
+        e.preventDefault()
+        ajaxChangeVisible($(this), 'invisivel')
+    })
+
     /* 
         AJAX DELETE USER
         Pedido DELETE para remover utilizador
@@ -80,7 +92,7 @@ $(()=>{
             url: url,
             type: 'DELETE',
             success: () =>{
-                element.closest('.w3-col').remove()
+                element.closest('tr').remove()
             }
         })
     }
@@ -98,10 +110,12 @@ $(()=>{
             data: formData,
             processData: false,
             contentType: false,
-            success: result => {       
+            success: result => {  
+                $('#formRegisterUser p').remove()    
                 $('#formRegisterUser').append('<p style="color: green;">Registado com sucesso.</p>')
             },
             error: error => {
+                $('#formRegisterUser p').remove() 
                 $('#formRegisterUser').append('<p style="color: red;">Utilizador já existe.</p>')
             }
           });
@@ -124,19 +138,19 @@ $(()=>{
                 window.location.replace('/admin/events')
             },
             error: error => {
-                
                 $('#formEvent p').remove()
                 $('#formEvent').append('<p style="color: red;">Erro na criação do evento.</p>')
             }
           });
     }
 
+
     /* 
         AJAX POST EVENT
         Pedido POST para adicionar um evento
     */
-   function ajaxPostEvent () {
-        var formData = new FormData($('#formEvent')[0])
+   function ajaxPostNoticia () {
+        var formData = new FormData($('#formNoticia')[0])
 
         $.ajax({
             type: "POST",
@@ -149,10 +163,40 @@ $(()=>{
             },
             error: error => {
                 $('#formNoticia p').remove()
-                $('#formNoticia').append('<p style="color: red;">Erro na criação do evento.</p>')
+                $('#formNoticia').append('<p style="color: red;">Erro na criação da notícia.</p>' )
         }
       });
     }
+
+    /* 
+        AJAX POST NOTICIA
+        Pedido POST para alterar visibilidade da notícia
+    */
+   function ajaxChangeVisible (element, visibilidade) {
+    var id = element.attr('href')
+    $.ajax({
+        type: "POST",
+        url: '/api/noticias/' + id + '/' + visibilidade,
+        success: result => {       
+            element.empty()
+            if (visibilidade == 'visivel'){ 
+                element.removeClass('buttonVisible')
+                element.addClass('buttonNotVisible')
+                element.append('<i class="fas fa-eye-slash"></i>')
+                element.closest('tr').css('border-left', '5px solid green')
+            }
+            else {
+                element.removeClass('buttonNotVisible')
+                element.addClass('buttonVisible')
+                element.append('<i class="fas fa-eye"></i>')
+                element.closest('.visibleIndicator').empty()
+                element.closest('tr').css('border-left', '5px solid darkred')
+            }
+        },
+        error: error => {
+    }
+  });
+}
 
     jQuery.validator.addMethod("Num", function(value, element) {
         // allow any non-whitespace characters as the host part

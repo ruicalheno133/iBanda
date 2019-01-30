@@ -1,7 +1,12 @@
 var express = require('express');
+var formidable = require('formidable')
 var NoticiasController = require('../../controllers/noticiaController')
+var passport = require('passport')
 var router = express.Router();
 
+router.get('/*', passport.authenticate('jwt-all', {session: false}), (req, res, next) => {next()})
+router.post('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
+router.delete('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
 
 /**
  * @api {get} /api/noticias Obtem lista de noticias
@@ -31,13 +36,14 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
   /* Gets form data from request body */
   var form = new formidable.IncomingForm();
- 
   /* Parses the form */
   form.parse(req, (err, fields, files)=>{
     if (!err){
-      NoticiasController.addEvent(fields)
+      fields.visibilidade = true;
+      fields.data = Date.now()
+      NoticiasController.addNoticia(fields)
                         .then(result => {
-                          res.jsonp("Evento inserido com sucesso.")
+                          res.jsonp("Notícia inserida com sucesso.")
                         })
                         .catch(err => {
                           res.status(500).jsonp(err)
@@ -46,6 +52,38 @@ router.post('/', function(req, res) {
         res.status(500).jsonp(err)
       }
   })
+});
+
+/**
+ * @api {post} /api/noticias Adiciona uma noticia
+ * @apiName AddNoticia
+ * @apiGroup Noticias
+ * 
+ */
+router.post('/:id/visivel', function(req, res) {
+      NoticiasController.makeVisible(req.params.id, true)
+                        .then(result => {
+                          res.jsonp("Notícia é agora vísivel.")
+                        })
+                        .catch(err => {
+                          res.status(500).jsonp(err)
+                        })
+});
+
+/**
+ * @api {post} /api/noticias Adiciona uma noticia
+ * @apiName AddNoticia
+ * @apiGroup Noticias
+ * 
+ */
+router.post('/:id/invisivel', function(req, res) {
+  NoticiasController.makeNotVisible(req.params.id, false)
+                    .then(result => {
+                      res.jsonp("Notícia é agora vísivel.")
+                    })
+                    .catch(err => {
+                      res.status(500).jsonp(err)
+                    })
 });
 
 /**

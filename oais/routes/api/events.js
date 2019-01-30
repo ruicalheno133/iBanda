@@ -1,8 +1,12 @@
 var express = require('express');
 var EventController = require('../../controllers/eventController')
 var formidable = require('formidable')
+var passport = require('passport')
 var router = express.Router();
 
+router.get('/*', passport.authenticate('jwt-all', {session: false}), (req, res, next) => {next()})
+router.post('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
+router.delete('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
 
 /**
  * @api {get} /api/events Obtem lista de eventos

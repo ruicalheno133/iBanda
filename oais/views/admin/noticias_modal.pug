@@ -17,12 +17,13 @@ form.w3-container(id="formNoticia" style="width: 100%")
                 .myInputContainer
                     label.myInputLabelDark 
                         b Texto
-                input.w3-input.myInputTextDark(type='text', name='texto', style='width:100%')
+                pre 
+                    textarea.w3-input.myInputTextDark(type='text', name='texto', style='width:100%')
         tr
             td
                 br
                 .myInputContainer
                     label.myInputLabelDark 
-                        b Data
-                input.w3-input.myInputTextDark(type='date', name='data', style='width:100%', value)
+                        b Fonte
+                input.w3-input.myInputTextDark(type='text', name='fonte', style='width:100%', value)
     input.w3-button.myFancyButton.w3-margin.w3-right(type='submit', value='Criar Notícia', id="buttonRegisterNoticia")

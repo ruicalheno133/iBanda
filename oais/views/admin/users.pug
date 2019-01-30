@@ -11,17 +11,19 @@ block content
                         tr
                             td
                                 .w3-bar
-                                    .w3-bar-item 
+                                    .w3-bar-item
                                         if u.profile_pic
                                             img(style="width: 50px; height: 50px; border-radius: 50%;" src=u.profile_pic)
                                         else
                                             img(style="width: 50px; height: 50px; border-radius: 50%;" src="/uploaded/profile-default.png")
                                     .w3-bar-item
                                         if u.nome
-                                            | #{u.nome} 
+                                            b #{u.tipo} #{u.nome} 
                                         br     
                                         if u.email
                                             | #{u.email}
+                                        br
+                                        | 
                             td.w3-display-container
                                 .w3-display-right
                                     a.w3-margin(href="/admin/users/" + u._id)

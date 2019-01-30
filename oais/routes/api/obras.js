@@ -4,9 +4,13 @@ var formidable = require('formidable')
 var AdmZip = require('adm-zip');
 var jsonfile = require('jsonfile')
 var rimraf = require('rimraf')
+var passport = require('passport')
 var fs = require('fs')
 var router = express.Router();
 
+router.get('/*', passport.authenticate('jwt-all', {session: false}), (req, res, next) => {next()})
+router.post('/*', passport.authenticate('jwt-produtor', {session: false}), (req, res, next) => {next()})
+router.delete('/*', passport.authenticate('jwt-prod-admin', {session: false}), (req, res, next) => {next()})
 
 /**
  * @api {get} /api/obras Obtem lista de Obras

@@ -3,25 +3,66 @@ extends admin_layout
 block content
     header.w3-container(style="box-shadow: 0px 1px 6px grey")
         h1 Notícias
-        .w3-modal(id="noticiasModal")
-            .w3-modal-content.w3-theme-4(style="width: 40%").w3-border
-                include noticias_modal 
-    div(style="height: 78%; overflow: auto;")
+    .w3-container.w3-section
+        table.w3-table.w3-table-all
+            tr.myFancyButton
+                td
+                    .w3-center(onclick="document.getElementById('noticiasModal').style.display='block'" style="height: 100%; cursor: pointer;")
+                        h1
+                            i.fas.fa-plus(style="opacity: 0.7;")
+    div(style="height: 70%; overflow: auto;")
         .w3-container
             table(id="noticiasTable").w3-table.w3-table-all
-                each n in noticias 
-                    tr
-                        td
-                            .w3-bar
-                                .w3-bar-item
-                                    h3= n.titulo
-                                    br     
-                                    p= n.texto
-                            td.w3-display-container
-                                .w3-display-topright
-                                       p= moment(n.data).format('DD/MM/YYYY')      
-                            td.w3-display-container
-                                .w3-display-topmiddle
-                                    a(href="/api/noticias/" + n._id).w3-button.buttonRemoveNoticia
-                                        i.fas.fa-times
+                each n in noticias.reverse()
+                    if n.visibilidade == true 
+                        tr(style="border-left: 5px solid green")
+                            td
+                                .w3-bar
+                                    .w3-bar-item
+                                        h3(style="margin-bottom: 0px;")  #{n.titulo}  
+                                        span(style="margintop: 0px;") #{moment(n.data).format('DD/MM/YYYY')}
+                                        br     
+                                        p!= n.texto.replace("\n", "<br />")
+                                        if n.fonte
+                                            span 
+                                                b Fonte: &nbsp;
+                                                a(href=n.fonte target="_blank")= n.fonte
+                                td.w3-display-container
+                                    .w3-display-middle
+                                        a(href= n._id).w3-margin.buttonRemoveNoticia
+                                            i.fas.fa-trash-alt
+                                        br
+                                        if (n.visibilidade === true)
+                                            a(href= n._id).w3-margin.buttonNotVisible
+                                                i.fas.fa-eye-slash
+                                        else 
+                                            a(href= n._id).w3-margin.buttonVisible
+                                                i.fas.fa-eye
+                    else 
+                        tr(style="border-left: 5px solid darkred")
+                            td
+                                .w3-bar
+                                    .w3-bar-item
+                                        h3(style="margin-bottom: 0px;")  #{n.titulo}  
+                                        span(style="margintop: 0px;") #{moment(n.data).format('DD/MM/YYYY')}
+                                        br     
+                                        p!= n.texto.replace("\n", "<br />")
+                                        if n.fonte
+                                            span 
+                                                b Fonte: &nbsp;
+                                                a(href=n.fonte target="_blank")= n.fonte
+                                td.w3-display-container
+                                    .w3-display-middle
+                                        a(href= n._id).w3-margin.buttonRemoveNoticia
+                                            i.fas.fa-trash-alt
+                                        br
+                                        if (n.visibilidade === true)
+                                            a(href= n._id).w3-margin.buttonNotVisible
+                                                i.fas.fa-eye-slash
+                                        else 
+                                            a(href= n._id).w3-margin.buttonVisible
+                                                i.fas.fa-eye
                 br
+    .w3-modal(id="noticiasModal")
+        .w3-modal-content.w3-theme-4(style="width: 40%").w3-border
+            include noticias_modal 

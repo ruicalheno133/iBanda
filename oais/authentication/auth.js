@@ -78,7 +78,7 @@ var extractFromSession = function(req){
 
 passport.use('jwt-admin', new JWTstrategy({
     secretOrKey: 'pri2018',
-    jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession])
+    jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession, ExtractJWT.fromUrlQueryParameter('api-key')])
 }, (token, done) => {
     try{
       if(token.user.tipo === "Admin") return done(null, token.user)
@@ -91,7 +91,7 @@ passport.use('jwt-admin', new JWTstrategy({
 
 passport.use('jwt-musico', new JWTstrategy({
   secretOrKey: 'pri2018',
-  jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession])
+  jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession, ExtractJWT.fromUrlQueryParameter('api-key')])
 }, (token, done) => {
   try{
       if(token.user.tipo === "Músico") return done(null, token.user)
@@ -104,7 +104,7 @@ passport.use('jwt-musico', new JWTstrategy({
 
 passport.use('jwt-produtor', new JWTstrategy({
   secretOrKey: 'pri2018',
-  jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession])
+  jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession, ExtractJWT.fromUrlQueryParameter('api-key')])
 }, (token, done) => {
   try{
       if(token.user.tipo === "Produtor") return done(null, token.user)
@@ -115,7 +115,7 @@ passport.use('jwt-produtor', new JWTstrategy({
   }
 }))
 
-passport.use('jwt-api-all', new JWTstrategy({
+passport.use('jwt-all', new JWTstrategy({
   secretOrKey: 'pri2018',
   jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession, ExtractJWT.fromUrlQueryParameter('api-key')])
 }, (token, done) => {
@@ -127,7 +127,19 @@ passport.use('jwt-api-all', new JWTstrategy({
   }
 }))
 
-/*
+passport.use('jwt-prod-admin', new JWTstrategy({
+  secretOrKey: 'pri2018',
+  jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession, ExtractJWT.fromUrlQueryParameter('api-key')])
+}, (token, done) => {
+  try{
+      if(token.user.tipo === "Produtor" || token.user.tipo === "Admin") return done(null, token.user)
+      return done(null, token.user)
+  }
+  catch(erro){
+      return done(erro)
+  }
+}))
+
 passport.use('jwt-api-admin', new JWTstrategy({
   secretOrKey: 'pri2018',
   jwtFromRequest: ExtractJWT.fromUrlQueryParameter('api-key')
@@ -141,4 +153,3 @@ passport.use('jwt-api-admin', new JWTstrategy({
   }
 }))
 
-*/

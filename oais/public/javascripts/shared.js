@@ -89,10 +89,12 @@ $(() => {
         data: formData,
         processData: false,
         contentType: false,
-        success: result => {        
+        success: result => {    
+            $('#formUpdateUser p').remove()     
             $('#formUpdateUser').append('<p style="color: green;">Atualizado com sucesso.</p>')
         },
         error: error => {
+            $('#formUpdateUser p').remove() 
             $('#formUpdateUser').append('<p style="color: red;"> Impossível de atualizar.</p>')
         }
       });
