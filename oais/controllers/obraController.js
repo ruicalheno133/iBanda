@@ -2,9 +2,12 @@ var ObraModel = require('../models/ObraModel')
 
 var ObraController = {}
 
-/* Lista todos os Obras */
+/* Lista todos os Obras
+   Por ordem alfabética
+*/
 ObraController.listAll = () => {
     return ObraModel.find()
+                    .sort({titulo: 1})
                     .exec()
 } 
 

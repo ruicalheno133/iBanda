@@ -29,7 +29,8 @@ $(() => {
     /* Para remover um evento */
     $('.buttonRemoveObra').click(function(e){
         e.preventDefault()
-        ajaxDeleteObra($(this))
+        if (confirm('De certeza que pretende eliminar esta obra?'))
+            ajaxDeleteObra($(this))
     })
 
     /* 

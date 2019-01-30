@@ -13,7 +13,7 @@ var UserSchema = new mongoose.Schema(
     }
 )
 
-/* Antes de Save executa callback */
+/* Antes de Save e  xecuta callback */
 UserSchema.pre('save', async function (next){
     var hash = await bcrypt.hash(this.password, 10)
     this.password = hash

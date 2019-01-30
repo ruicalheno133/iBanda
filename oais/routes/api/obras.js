@@ -13,7 +13,7 @@ router.post('/*', passport.authenticate('jwt-produtor', {session: false}), (req,
 router.delete('/*', passport.authenticate('jwt-prod-admin', {session: false}), (req, res, next) => {next()})
 
 /**
- * @api {get} /api/obras Obtem lista de Obras
+ * @api {get} /api/obras Obtem lista de Obras ordenadas alfabeticamente
  * @apiName GetObras
  * @apiGroup Obras
  * 
@@ -145,7 +145,6 @@ router.post('/', function(req, res) {
     /* Unzipa */
     var zipEnviado = files.ficheiro.path;
     var zip = new AdmZip(zipEnviado); 
-    var partiturasErr = ""
 
     /* Obtem manifesto */
     var manifesto = zip.getEntry('iBanda-SIP.json')
@@ -161,9 +160,12 @@ router.post('/', function(req, res) {
       jsonfile.readFile('./temp/' + manifesto.entryName)
               .then(manifesto =>{
                 /* Verifica se as partituras existem */
-                partiturasErr = verifyPartituras(manifesto)
+                var partiturasErr = verifyPartituras(manifesto)
                 /* Se não existirem - ERRO */
-                if (partiturasErr != "") return res.status(500).jsonp(partiturasErr)
+                if (partiturasErr != "") {
+                  console.log(partiturasErr)
+                  return res.status(500).jsonp(partiturasErr)
+                }
                 /* Metadados (manifesto + criador) */
                 var obraUpdated = {...manifesto, ...{criador: req.user.nome, criador_id: req.user._id}}
                 /* Adiciona metadados à base de dados mongo */
@@ -171,7 +173,7 @@ router.post('/', function(req, res) {
                               .then(result => {
                                 /* Se inseriu na BD, extrai ZIP para Local Storage */
                                 extraiZIP(zip, manifesto._id, zipEnviado, erro => {
-                                  if (!erro) return res.jsonp("Inserida com sucesso.")
+                                  if (!erro) return res.jsonp("Obra '" + manifesto.titulo + "' inserida.")
                                   else return res.status(500).jsonp("Erro ao inserir no Local Storage.")
                                 })
                               })
@@ -191,9 +193,9 @@ function verifyPartituras (manifesto) {
       if (!fs.existsSync('./temp/' + partitura)) {
         partiturasErr += `Partitura \'${partitura}\' não existe.\n`
       }     
+    }
   return partiturasErr
   }
-}
 
 function extraiZIP (zip, obraID, zipEnviado, callback) {
   var extractTO = './public/obras/' + obraID

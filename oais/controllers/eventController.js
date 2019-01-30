@@ -2,9 +2,12 @@ var EventModel = require('../models/eventModel')
 
 var EventController = {}
 
-/* Lista todos os eventos */
+/* Lista todos os eventos
+   Por data de realização
+ */
 EventController.listAll = () => {
     return EventModel.find()
+                     .sort({data: 1})
                      .exec()
 } 
 

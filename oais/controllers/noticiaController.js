@@ -2,7 +2,9 @@ var NoticiaModel = require('../models/noticiaModel')
 
 var NoticiaController = {}
 
-/* Lista todas as noticias */
+/* Lista todas as noticias 
+   Por data de criação 
+ */
 NoticiaController.listAll = () => {
     return NoticiaModel.find()
                        .exec()
@@ -39,7 +41,7 @@ NoticiaController.removeNoticia = (id) => {
 
 /* Atualiza uma noticia */
 NoticiaController.updateNoticia = (id,noticia) => {
-    return NoticiaModel.findByIdAndUpdate(id,noticia)
+    return NoticiaModel.findByIdAndUpdate(id,noticia, { runValidators: true })
                        .exec()
 }
 

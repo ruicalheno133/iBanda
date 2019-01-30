@@ -1,16 +1,16 @@
 
 header.w3-block.w3-container(style="box-shadow: 0px 3px 4px -3px black")
-    h1.w3-left.w3-margin Nova Notícia
-    span.w3-button.buttonCloseModal(onclick="document.getElementById('noticiasModal').style.display='none'")
+    h1.w3-left.w3-margin Editar Notícia
+    span.w3-button.buttonCloseModal(onclick="document.getElementById('noticiasUpdateModal" + n._id + "').style.display='none'")
         i.fas.fa-times
-form.w3-container(id="formNoticia" style="width: 100%")
+form.w3-container(id="formUpdateNoticia" + n._id,  style="width: 100%")
     table.w3-container.w3-section(style="width: 100%")
         tr 
             td
                 .myInputContainer
                     label.myInputLabelDark 
                         b Título
-                input.w3-input.myInputTextDark(type='text', name='titulo', style='width:100%')
+                input.w3-input.myInputTextDark(type='text', name='titulo', style='width:100%', value=n.titulo)
         tr    
             td
                 br
@@ -18,11 +18,12 @@ form.w3-container(id="formNoticia" style="width: 100%")
                     label.myInputLabelDark 
                         b Texto
                     textarea.w3-input.myInputTextDark(type='text', name='texto', style='width:100%')
+                        | #{n.texto}
         tr
             td
                 br
                 .myInputContainer
                     label.myInputLabelDark 
                         b Fonte
-                input.w3-input.myInputTextDark(type='text', name='fonte', style='width:100%', value)
-    input.w3-button.myFancyButton.w3-margin.w3-right(type='submit', value='Criar Notícia', id="buttonRegisterNoticia")
+                input.w3-input.myInputTextDark(type='text', name='fonte', style='width:100%', value = n.fonte)
+    input.w3-button.myFancyButton.w3-margin.w3-right(type='submit', value='Editar Notícia', class="buttonUpdateNoticia" nid=n._id)

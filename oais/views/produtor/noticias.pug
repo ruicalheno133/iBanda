@@ -15,7 +15,8 @@ block content
                                         h3(style="margin-bottom: 0px;")  #{n.titulo}  
                                         span(style="margintop: 0px;") #{moment(n.data).format('DD/MM/YYYY')}
                                         br     
-                                        p!= n.texto.replace("\n", "<br />")
-                                        span 
-                                            b Fonte: &nbsp;
-                                            a(href=n.fonte target="_blank")= n.fonte
+                                        p!= n.texto.replace(/\n/g, '<br />')
+                                        if n.fonte
+                                            span 
+                                                b Fonte: &nbsp;
+                                                a(href=n.fonte target="_blank")= n.fonte

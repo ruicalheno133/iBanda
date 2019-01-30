@@ -6,7 +6,7 @@ var NoticiaSchema = new mongoose.Schema(
         titulo      : {type: String, required: true},
         texto       : {type: String},
         fonte       : {type: String},
-        visibilidade : {type: Boolean, required: true},
+        visibilidade: {type: Boolean, required: true},
         data        : {type: Date, required: true}
     }
 )

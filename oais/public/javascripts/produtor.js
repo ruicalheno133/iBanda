@@ -24,13 +24,36 @@ $(()=>{
         contentType: false,
         success: result => {       
             $('#formRegisterObra').append('<p style="color: green;">Registada com sucesso.</p>')
+            ajaxPostNoticia(result)
         },
         error: error => {
             $('#formRegisterObra p ').remove()
-            $('#formRegisterObra').append('<p style="color:red;">' + error.responseJSON + '</p>')
+            $('#formRegisterObra').append('<p style="color:red;">' + error.responseJSON.replace(/\n/g, '<br />') + '</p>')
         }
       });
     }
+
+    /* 
+        AJAX POST NOTICIA
+        Pedido POST para adicionar uma noticia
+    */
+   function ajaxPostNoticia (obra) {
+    var formData = new FormData()
+    formData.append('titulo', 'Adicionada nova obra.')
+    formData.append('texto', obra + '\nIr para <a href="./obras">Obras</a>')
+    console.log(obra)
+    $.ajax({
+        type: "POST",
+        url: '/api/noticias',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: result => {       
+        },
+        error: error => {
+    }
+  });
+}
 
     jQuery.validator.addMethod("isZIP", function(value, element) {
         // allow any non-whitespace characters as the host part

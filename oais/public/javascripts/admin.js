@@ -11,7 +11,8 @@ $(()=>{
     /* Para remover um utilizador */
     $('.buttonRemoveUser').click(function(e){
         e.preventDefault()
-        ajaxDeleteUser($(this))
+        if (confirm('De certeza que pretende eliminar este utilizador?'))
+            ajaxDeleteUser($(this))
     })
 
     /* Para registar um evento */
@@ -23,7 +24,8 @@ $(()=>{
     /* Para remover um evento */
     $('.buttonRemoveEvent').click(function(e){
         e.preventDefault()
-        ajaxDeleteEvent($(this))
+        if (confirm('De certeza que pretende eliminar este evento?'))
+            ajaxDeleteEvent($(this))
     })
 
      /* Para registar uma noticia */
@@ -32,10 +34,18 @@ $(()=>{
         ajaxPostNoticia()
     })
 
+     /* Para atualizar uma noticia */
+     $('.buttonUpdateNoticia').click(function(e){
+        e.preventDefault()
+        var id = $(this).attr('nid')
+        ajaxPutNoticia(id)
+    })
+
     /* Para remover uma noticia */
     $('.buttonRemoveNoticia').click(function(e){
         e.preventDefault()
-        ajaxDeleteNoticia($(this))
+        if (confirm('De certeza que pretende eliminar esta notícia?'))
+            ajaxDeleteNoticia($(this))
     })
 
     /* Para remover uma noticia */
@@ -146,8 +156,8 @@ $(()=>{
 
 
     /* 
-        AJAX POST EVENT
-        Pedido POST para adicionar um evento
+        AJAX POST NOTICIA
+        Pedido POST para adicionar uma noticia
     */
    function ajaxPostNoticia () {
         var formData = new FormData($('#formNoticia')[0])
@@ -167,6 +177,29 @@ $(()=>{
         }
       });
     }
+
+    /* 
+        AJAX PUT noticia
+        Pedido PUT para atualizar uma noticia
+    */
+   function ajaxPutNoticia (id) {
+    var formData = new FormData($('#formUpdateNoticia' + id)[0])
+
+    $.ajax({
+        type: "PUT",
+        url: '/api/noticias/' + id,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: result => {       
+            window.location.replace('/admin/noticias')
+        },
+        error: error => {
+            $('#formUpdateNoticia' + id + 'p').remove()
+            $('#formUpdateNoticia' + id).append('<p style="color: red;">Erro na edição da notícia.</p>' )
+    }
+  });
+}
 
     /* 
         AJAX POST NOTICIA

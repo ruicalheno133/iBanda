@@ -5,11 +5,11 @@ var passport = require('passport')
 var router = express.Router();
 
 router.get('/*', passport.authenticate('jwt-all', {session: false}), (req, res, next) => {next()})
-router.post('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
+router.post('/*', passport.authenticate('jwt-prod-admin', {session: false}), (req, res, next) => {next()})
 router.delete('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
 
 /**
- * @api {get} /api/noticias Obtem lista de noticias
+ * @api {get} /api/noticias Obtem lista de noticias ordenadas por data de criação
  * @apiName GetNoticias
  * @apiGroup Noticias
  * 

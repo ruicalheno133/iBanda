@@ -13,7 +13,7 @@ router.post('/*', passport.authenticate('jwt-admin', {session: false}), (req, re
 router.delete('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
 
 /**
- * @api {get} /api/users Obtem lista de utilizadores
+ * @api {get} /api/users Obtem lista de utilizadores ordenados alfabeticamente
  * @apiName GetUsers
  * @apiGroup Users
  * 

@@ -22,12 +22,12 @@ block content
                                         h3(style="margin-bottom: 0px;")  #{n.titulo}  
                                         span(style="margintop: 0px;") #{moment(n.data).format('DD/MM/YYYY')}
                                         br     
-                                        p!= n.texto.replace("\n", "<br />")
+                                        p!= n.texto.replace(/\n/g, '<br />')
                                         if n.fonte
                                             span 
                                                 b Fonte: &nbsp;
                                                 a(href=n.fonte target="_blank")= n.fonte
-                                td.w3-display-container
+                            td.w3-display-container
                                     .w3-display-middle
                                         a(href= n._id).w3-margin.buttonRemoveNoticia
                                             i.fas.fa-trash-alt
@@ -38,6 +38,9 @@ block content
                                         else 
                                             a(href= n._id).w3-margin.buttonVisible
                                                 i.fas.fa-eye
+                                        br
+                                        a(onclick="document.getElementById('noticiasUpdateModal" + n._id + "').style.display='block'" style="cursor: pointer").w3-margin
+                                            i.fas.fa-edit
                     else 
                         tr(style="border-left: 5px solid darkred")
                             td
@@ -46,12 +49,12 @@ block content
                                         h3(style="margin-bottom: 0px;")  #{n.titulo}  
                                         span(style="margintop: 0px;") #{moment(n.data).format('DD/MM/YYYY')}
                                         br     
-                                        p!= n.texto.replace("\n", "<br />")
+                                        p!= n.texto.replace(/\n/g, '<br />')
                                         if n.fonte
                                             span 
                                                 b Fonte: &nbsp;
                                                 a(href=n.fonte target="_blank")= n.fonte
-                                td.w3-display-container
+                            td.w3-display-container
                                     .w3-display-middle
                                         a(href= n._id).w3-margin.buttonRemoveNoticia
                                             i.fas.fa-trash-alt
@@ -62,7 +65,15 @@ block content
                                         else 
                                             a(href= n._id).w3-margin.buttonVisible
                                                 i.fas.fa-eye
-                br
+                                        br
+                                        a(onclick="document.getElementById('noticiasUpdateModal" + n._id + "').style.display='block'" style="cursor: pointer").w3-margin
+                                            i.fas.fa-edit
+
     .w3-modal(id="noticiasModal")
         .w3-modal-content.w3-theme-4(style="width: 40%").w3-border
             include noticias_modal 
+
+    each n in noticias
+        .w3-modal(id="noticiasUpdateModal" + n._id)
+            .w3-modal-content.w3-theme-4(style="width: 40%").w3-border
+                include noticias_update_modal 

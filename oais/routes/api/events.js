@@ -9,7 +9,7 @@ router.post('/*', passport.authenticate('jwt-admin', {session: false}), (req, re
 router.delete('/*', passport.authenticate('jwt-admin', {session: false}), (req, res, next) => {next()})
 
 /**
- * @api {get} /api/events Obtem lista de eventos
+ * @api {get} /api/events Obtem lista de eventos ordenados por data de realização
  * @apiName GetEventos
  * @apiGroup Eventos
  * 

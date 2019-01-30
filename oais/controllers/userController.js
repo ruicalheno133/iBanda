@@ -5,6 +5,19 @@ var UserController = {}
 /* Lista todos os utilizadores */
 UserController.listAll = () => {
     return UserModel.find()
+                    .sort({nome: 1})
+                    .exec()
+} 
+
+/* Obtem determinado utilizador */
+UserController.getUserByEmail = (email) => {
+    return UserModel.findOne({email: email})
+                    .exec()
+}
+
+/* Obtem determinado utilizador */
+UserController.getUserById = (id) => {
+    return UserModel.findById(id)
                     .exec()
 } 
 
@@ -33,18 +46,6 @@ UserController.updateProfilePic = (id, profile_pic) => {
                     }
                 }).exec()
 }
-
-/* Obtem determinado utilizador */
-UserController.getUserByEmail = (email) => {
-    return UserModel.findOne({email: email})
-                    .exec()
-}
-
-/* Obtem determinado utilizador */
-UserController.getUserById = (id) => {
-    return UserModel.findById(id)
-                    .exec()
-} 
 
 /* Exporta o User Controller */
 module.exports = UserController
