@@ -22,14 +22,14 @@ NoticiaController.addNoticia = (noticia) => {
 } 
 
 /* Torna notícia visível */
-NoticiaController.makeVisible = (noticia) => {
-    return NoticiaModel.findByIdAndUpdate(noticia, {visibilidade: true})
+NoticiaController.makeVisible = (id) => {
+    return NoticiaModel.findByIdAndUpdate(id, {visibilidade: true})
                        .exec()
 } 
 
 /* Torna notícia não visível */
-NoticiaController.makeNotVisible = (noticia) => {
-    return NoticiaModel.findByIdAndUpdate(noticia, {visibilidade: false})
+NoticiaController.makeNotVisible = (id) => {
+    return NoticiaModel.findByIdAndUpdate(id, {visibilidade: false})
                        .exec()
 } 
 

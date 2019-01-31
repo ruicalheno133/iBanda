@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
   res.render('login');
 });
 
-/* GET home page. */
+/* GET processa logout. */
 router.get('/logout', function(req, res) {
   req.logout()
   req.session.destroy(function (err) {
@@ -17,8 +17,16 @@ router.get('/logout', function(req, res) {
   });
 });
 
-/* GET home page. */
+/* GET processa logout da api. */
+router.get('/apiLogout', function(req, res) {
+  req.logout()
+  req.session.destroy(function (err) {
+    res.clearCookie('my.connection.sid');
+    res.jsonp('Sessão terminada.')
+  });
+});
 
+/* POST processa login. */
 router.post('/processLogin', (req, res, next) => {
   passport.authenticate('login', (err, user, info) => { 
           if(!user){
@@ -28,7 +36,8 @@ router.post('/processLogin', (req, res, next) => {
           else {
           req.login(user, { session : false }, (error) => {
               if (error) return next(error)
-              var token = jwt.sign({ user : user }, 'pri2018');
+              var myUser = {_id: user._id, nome: user.nome, email: user.email, tipo: user.tipo, sexo: user.sexo}
+              var token = jwt.sign({ user : myUser }, 'pri2018');
               req.session.token = token;
               if (user.tipo == "Músico") return res.redirect('/musico')
               else if (user.tipo == "Produtor") return res.redirect('/produtor')
@@ -38,14 +47,28 @@ router.post('/processLogin', (req, res, next) => {
   })(req, res, next);
 });
 
+/* POST processa login da api */
+router.post('/apiLogin', (req, res, next) => {
+  passport.authenticate('login', (err, user, info) => { 
+          if(!user){
+            return res.status(500).jsonp('Autenticação falhou.')
+          } 
+          else if (err) { res.status(500).jsonp('Autenticação falhou.') }
+          else {
+          req.login(user, { session : false }, (error) => {
+              if (error) return next(error)
+              var myUser = {_id: user._id, nome: user.nome, email: user.email, tipo: user.tipo, sexo: user.sexo}
+              var token = jwt.sign({ user : user }, 'pri2018');
+              req.session.token = token;
+              return res.jsonp('Logado com sucesso.')
+          });
+        }
+  })(req, res, next);
+});
+
 /* GET admin page. */
 router.get('/admin', passport.authenticate('jwt-admin', {session: false}), (req,res) => {
   res.render("admin/admin_layout");
-});
-
-/* GET Unauthorized */
-router.get('/unauthorized', (req, res) => {
-  res.render("unauthorized")
 });
 
 /*GET musico page. */
