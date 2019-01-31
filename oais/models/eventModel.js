@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 
-/* User Schema */
+/* Event Schema */
 var EventSchema = new mongoose.Schema(
     {
         nome        : {type: String, required: true},
