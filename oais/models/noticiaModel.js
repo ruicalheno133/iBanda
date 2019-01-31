@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 
-/* User Schema */
+/* Noticia Schema */
 var NoticiaSchema = new mongoose.Schema(
     {
         titulo      : {type: String, required: true},
@@ -12,8 +12,8 @@ var NoticiaSchema = new mongoose.Schema(
 )
 
 
-/* Event Model */
+/* Noticia Model */
 var NoticiaModel = mongoose.model('NoticiaSchema', NoticiaSchema ,'noticias')
 
-/* Export Event Model */
+/* Export Noticia Model */
 module.exports = NoticiaModel

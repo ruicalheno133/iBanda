@@ -2,7 +2,7 @@ var ObraModel = require('../models/ObraModel')
 
 var ObraController = {}
 
-/* Lista todos os Obras
+/* Lista todas as Obras
    Por ordem alfabética
 */
 ObraController.listAll = () => {
@@ -11,18 +11,18 @@ ObraController.listAll = () => {
                     .exec()
 } 
 
-/* Lista um determinado Obra */
+/* Lista uma determinado Obra */
 ObraController.getObraById = (id) => {
     return ObraModel.findOne({_id: id})
                     .exec()
 } 
 
-/* Adiciona um novo Obra */
+/* Adiciona uma nova Obra */
 ObraController.addObra = (obra) => {
     return ObraModel.create(obra)
 } 
 
-/* Remove um Obra */
+/* Remove uma Obra */
 ObraController.removeObra = (id) => {
     return ObraModel.findByIdAndDelete(id)
                     .exec()
